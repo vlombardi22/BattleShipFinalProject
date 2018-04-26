@@ -14,10 +14,8 @@ public class GameManager implements ActionListener {
     private JPanel masterPanel;
     private Board armada1;
     private Board armada2;
-    private JButton[][] player1Grid;
-    private JButton[][] player2Grid;
-    private JButton[][] positionGrid1;
-    private JButton[][] positionGrid2;
+    private JButton[][] shootingGrid;
+    private JButton[][] positionGrid;
     private int xCoordinate1;
     private int yCoordinate1;
 
@@ -69,22 +67,22 @@ public class GameManager implements ActionListener {
         // Set up encompassing panels
         JPanel boardPanel = new JPanel(new BorderLayout());
         JPanel Panel = new JPanel();
-        positionGrid1 = new JButton[10][10];
+        positionGrid = new JButton[10][10];
         Panel.setLayout(new GridBagLayout());
 
         // Create button grid
         for(int x = 0; x < 10;x++){
             for(int y = 0; y < 10; y++){
                 GridBagConstraints constraints = new GridBagConstraints();
-                positionGrid1[y][x] = new JButton("("+x+","+y+")");
-                positionGrid1[y][x].setBackground(Color.BLUE);
+                positionGrid[y][x] = new JButton("("+x+","+y+")");
+                positionGrid[y][x].setBackground(Color.BLUE);
                 constraints.fill = GridBagConstraints.BOTH;
                 constraints.gridx = x;
                 constraints.gridy = y;
                 constraints.weightx = 1;
                 constraints.weighty = 1;
-                positionGrid1[y][x].addActionListener(this::player1DeploymentListener);
-                Panel.add(positionGrid1[y][x], constraints);
+                positionGrid[y][x].addActionListener(this::player1DeploymentListener);
+                Panel.add(positionGrid[y][x], constraints);
             }
         }
         
@@ -100,12 +98,12 @@ public class GameManager implements ActionListener {
     public void player1AttackListener(ActionEvent e) {
         for(int x = 0; x < 10; x++){
             for(int y = 0; y < 10; y++){
-                if(e.getSource() == player1Grid[y][x]){
+                if(e.getSource() == shootingGrid[y][x]){
                     armada2.shoot(x,y);
                     if(armada2.checkSpace(x,y)){
-                        player1Grid[y][x].setBackground(Color.RED);
+                        shootingGrid[y][x].setBackground(Color.RED);
                     }else{
-                        player1Grid[y][x].setBackground(Color.WHITE);
+                        shootingGrid[y][x].setBackground(Color.WHITE);
                     }
                 }
             }
@@ -115,12 +113,12 @@ public class GameManager implements ActionListener {
     public void player2AttackListener(ActionEvent e) {
         for(int x = 0; x < 10; x++){
             for(int y = 0; y < 10; y++){
-                if(e.getSource() == player2Grid[y][x]){
+                if(e.getSource() == shootingGrid[y][x]){
                     armada1.shoot(x,y);
                     if(armada1.checkSpace(x,y)){
-                        player2Grid[y][x].setBackground(Color.RED);
+                        shootingGrid[y][x].setBackground(Color.RED);
                     }else{
-                        player2Grid[y][x].setBackground(Color.WHITE);
+                        shootingGrid[y][x].setBackground(Color.WHITE);
                     }
                 }
             }
@@ -132,7 +130,7 @@ public class GameManager implements ActionListener {
         int yTemp = -1;
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
-                if (e.getSource() == positionGrid1[y][x]) {
+                if (e.getSource() == positionGrid[y][x]) {
                     xTemp = x;
                     yTemp = y;
                 }
@@ -169,7 +167,7 @@ public class GameManager implements ActionListener {
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
                 if (armada1.checkShipSpace(x, y)) {
-                    positionGrid1[x][y].setBackground(Color.gray);
+                    positionGrid[x][y].setBackground(Color.gray);
                 }
             }
         }
@@ -180,7 +178,7 @@ public class GameManager implements ActionListener {
         int yTemp = -1;
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
-                if (e.getSource() == positionGrid2[y][x]) {
+                if (e.getSource() == positionGrid[y][x]) {
                     xTemp = x;
                     yTemp = y;
                 }
@@ -217,7 +215,7 @@ public class GameManager implements ActionListener {
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
                 if (armada2.checkShipSpace(x, y)) {
-                    positionGrid2[x][y].setBackground(Color.gray);
+                    positionGrid[x][y].setBackground(Color.gray);
                 }
             }
         }
@@ -227,10 +225,10 @@ public class GameManager implements ActionListener {
     /**
      * clearsPlayer1's board (I just thought that this might be useful
      */
-    private void clearBoard1(){
+    private void clearShootingGrid(){
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
-                positionGrid1[x][y].setBackground(Color.BLUE);
+                shootingGrid[x][y].setBackground(Color.BLUE);
             }
         }
     }
@@ -238,10 +236,10 @@ public class GameManager implements ActionListener {
     /**
      * clears player2's board (I just thought that this would be useful)
      */
-    private void clearBoard2(){
+    private void clearPositionGrid(){
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
-                positionGrid2[x][y].setBackground(Color.BLUE);
+                positionGrid[x][y].setBackground(Color.BLUE);
             }
         }
     }
