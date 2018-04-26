@@ -10,7 +10,7 @@ public class BattleShip {
     public static JPanel startMenuPanel;
     public static JPanel rulesPanel;
     public static JPanel namePromptPanel;
-
+    public static JPanel gameBoardPanel;
 
     public static void main(String[] args)
             throws FileNotFoundException, IOException, FontFormatException {
@@ -25,9 +25,10 @@ public class BattleShip {
         startMenuPanel = new StartMenu();
         rulesPanel = new Rules();
         namePromptPanel = new NamePrompt();
-
+        gameBoardPanel = new GameBoard();
+        
         //Add start menu to the global frame
-        frame.add(startMenuPanel);
+        frame.add(gameBoardPanel);
 
         frame.pack();
         frame.setVisible(true);
