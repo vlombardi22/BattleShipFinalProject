@@ -68,6 +68,7 @@ public class GameManager implements ActionListener {
         game.setVisible(true);
     }
     
+<<<<<<< HEAD
     private void playerSetup(String P1, String P2){
         player1 = new Player(P1);
         armada1 = player1.armada;
@@ -77,6 +78,21 @@ public class GameManager implements ActionListener {
         armada2 = player2.armada;
         //armada2.displayEnemyBoard();
         
+=======
+    /**
+     * @param P1 String - player name
+     * @param P2 String - player name
+     */
+    private void consolePlay(String P1, String P2){
+        String player1 = P1;
+        String player2 = P2;
+        armada1 = new Board(player1);
+        armada2 = new Board(player2);
+
+        armada2.testConfig2();
+        armada1.displayPlayerBoard();
+        armada2.displayPlayerBoard();
+>>>>>>> aed092cb1f1cfbfef1a22e78a4bbf26a2647103c
         xCoordinate1 = -1;
         yCoordinate1 = -1;
     }
@@ -191,6 +207,7 @@ public class GameManager implements ActionListener {
             xCoordinate1 = xTemp;
             yCoordinate1 = yTemp;
         } else {
+<<<<<<< HEAD
             if (!armada.isBattleshipExists()) {
                 armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'B');
                 xCoordinate1 = -1;
@@ -221,6 +238,26 @@ public class GameManager implements ActionListener {
                 label2.setText("PATROL BOAT: 2 BLOCKS");
             } else if (!armada.isPatrolBoatExists()) {
                 armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'P');
+=======
+            if (!armada2.isBattleshipExists()) {
+                armada2.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'B');
+                xCoordinate1 = -1;
+                yCoordinate1 = -1;
+            } else if (!armada2.isCarrierExist()) {
+                armada2.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'A');
+                xCoordinate1 = -1;
+                yCoordinate1 = -1;
+            } else if (!armada2.isCruiserExists()) {
+                armada2.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'C');
+                xCoordinate1 = -1;
+                yCoordinate1 = -1;
+            } else if (!armada2.isSubExists()) {
+                armada2.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'S');
+                xCoordinate1 = -1;
+                yCoordinate1 = -1;
+            } else if (!armada2.isPatrolBoatExists()) {
+                armada2.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'P');
+>>>>>>> aed092cb1f1cfbfef1a22e78a4bbf26a2647103c
                 xCoordinate1 = -1;
                 yCoordinate1 = -1;
                 
