@@ -123,7 +123,6 @@ public class NamePrompt extends JPanel implements ActionListener{
             //Replace last line by adding GameManager and by setting it to visible
             GameManager game = new GameManager(field1.getText(), field2.getText());
 
-
             BattleShip.frame.setVisible(false);
             // BattleShip.frame.add(new StartMenu());
         }else if(e.getSource() == exitButton){

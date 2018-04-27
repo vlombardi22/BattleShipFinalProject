@@ -5,7 +5,6 @@
  *  Array ship positions battleship[0] aircraftCarrier[1] submarine[2] cruiser[3] patrolBoat[4]
  */
 
-import java.util.Scanner;
 public class Board {
     private Tile[][] board;  // array of tiles representing the players board
     private WarShip[] fleet; // array of warship objects representing players fleet

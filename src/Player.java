@@ -6,13 +6,15 @@
 public class Player {
 
     String name;
-    public static Player player1;
-    public static Player player2;
+    public Board armada;
+    //public static Player player1;
+    //public static Player player2;    
 
     // protected Fleet fleet;
 
     public Player(String name) {
         this.name = name;
+        armada = new Board(this.name);
     }
 
     public String getName() {
