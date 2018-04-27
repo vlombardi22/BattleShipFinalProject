@@ -52,7 +52,7 @@ public class GameManager implements ActionListener {
         String player2 = P2;
         armada1 = new Board(player1);
         armada2 = new Board(player2);
-//        armada1.testConfig1();
+
         armada2.testConfig2();
         armada1.displayPlayerBoard();
         armada2.displayPlayerBoard();
@@ -189,23 +189,23 @@ public class GameManager implements ActionListener {
             xCoordinate1 = xTemp;
             yCoordinate1 = yTemp;
         } else {
-            if (!armada1.isBattleshipExists()) {
+            if (!armada2.isBattleshipExists()) {
                 armada2.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'B');
                 xCoordinate1 = -1;
                 yCoordinate1 = -1;
-            } else if (!armada1.isCarrierExist()) {
+            } else if (!armada2.isCarrierExist()) {
                 armada2.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'A');
                 xCoordinate1 = -1;
                 yCoordinate1 = -1;
-            } else if (!armada1.isCruiserExists()) {
+            } else if (!armada2.isCruiserExists()) {
                 armada2.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'C');
                 xCoordinate1 = -1;
                 yCoordinate1 = -1;
-            } else if (!armada1.isSubExists()) {
+            } else if (!armada2.isSubExists()) {
                 armada2.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'S');
                 xCoordinate1 = -1;
                 yCoordinate1 = -1;
-            } else if (!armada1.isPatrolBoatExists()) {
+            } else if (!armada2.isPatrolBoatExists()) {
                 armada2.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'P');
                 xCoordinate1 = -1;
                 yCoordinate1 = -1;
