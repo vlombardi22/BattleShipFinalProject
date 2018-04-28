@@ -24,10 +24,14 @@ public class GameBoard extends JPanel implements ActionListener {
      /**
      * GameBoard constructor
      */
-    public GameBoard(){
+    public GameBoard(Player player1, Player player2){
         // Set up main JFrame and main JPanel
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
+        
+        armada1 = player1.getArmada();
+        armada2 = player2.getArmada();
+        
         // Set up panel to contain key and continue button
         southPanel = new JPanel(new BorderLayout());
         southPanel.setBackground(Color.BLACK);

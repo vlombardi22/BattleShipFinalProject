@@ -20,10 +20,12 @@ public class Board {
      * of a ship and to not be hit.
      * @param name
      */
-    public Board(String name){
+    public Board(){
         board = new Tile[10][10];
         fleet = new WarShip[5];
-        this.name = name;
+        
+        name = "Player";
+        
         for(int y = 0; y < 10; y++){
             for(int x = 0; x < 10; x++ ){
                 board[x][y] = new Tile();

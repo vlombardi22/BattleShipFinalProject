@@ -2,7 +2,6 @@
  * This class lets players name themselves and play a single round of battleship
  */
 
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -17,18 +16,21 @@ public class GameManager implements ActionListener {
     
     private JFrame game;
     private JPanel masterPanel;
+    private JPanel gameBoardPanel;
     
     private Player player1;
     private Player player2;
     
     private Board armada1;
     private Board armada2;
-    private Board armada;
+    private Board armada; // Used to hold either armada1 or armada2
  
     private JButton[][] positionGrid;
     private int xCoordinate1;
     private int yCoordinate1;
-    Font font;
+    
+    private Font font;
+    
     private JLabel label1;
     private JLabel label2;
     private JLabel label3;
@@ -50,9 +52,7 @@ public class GameManager implements ActionListener {
         masterPanel.setBackground(Color.BLACK);
         
         // Read from font file
-        FontSetup myFont = new FontSetup();
-        font = myFont.readFontFile();
-               
+        readFontFile();               
         // Create a board on the left side of the screen
         createBoard();
         // Give instructions to player        
@@ -68,31 +68,33 @@ public class GameManager implements ActionListener {
         game.setVisible(true);
     }
     
-<<<<<<< HEAD
-    private void playerSetup(String P1, String P2){
-        player1 = new Player(P1);
-        armada1 = player1.armada;
-        //armada1.displayEnemyBoard();
-        
-        player2 = new Player(P2);
-        armada2 = player2.armada;
-        //armada2.displayEnemyBoard();
-        
-=======
-    /**
-     * @param P1 String - player name
-     * @param P2 String - player name
+    private void readFontFile(){
+         //Read from font file
+        try{
+            //File path may need changing
+            InputStream is = new BufferedInputStream(new FileInputStream("res/RobotoMono-Medium.ttf"));
+            font = Font.createFont(Font.TRUETYPE_FONT, is);
+        }catch(FileNotFoundException e){
+            System.out.println("File not found");
+        }catch(IOException e){
+            System.out.println("Input/Output error");
+        }catch(FontFormatException e){
+            System.out.println("Font format exception");
+        }
+    }
+    
+     /**
+     * Initializes player objects
      */
-    private void consolePlay(String P1, String P2){
-        String player1 = P1;
-        String player2 = P2;
-        armada1 = new Board(player1);
-        armada2 = new Board(player2);
-
-        armada2.testConfig2();
-        armada1.displayPlayerBoard();
-        armada2.displayPlayerBoard();
->>>>>>> aed092cb1f1cfbfef1a22e78a4bbf26a2647103c
+    private void playerSetup(String P1, String P2){
+        player1 = new Player();
+        player1.setName(P1);
+        armada1 = player1.getArmada();
+        
+        player2 = new Player();
+        player2.setName(P2);
+        armada2 = player2.getArmada();
+        
         xCoordinate1 = -1;
         yCoordinate1 = -1;
     }
@@ -140,8 +142,8 @@ public class GameManager implements ActionListener {
         JPanel Panel = new JPanel();
         
         font = font.deriveFont(50f);
-        label1 = new JLabel("ADD YOUR BATTLESHIP");
-        label2 = new JLabel("BATTLESHIP: 4 BLOCKS");
+        label1 = new JLabel("ADD YOUR CARRIER");
+        label2 = new JLabel("CARRIER: 5 BLOCKS");
         label3 = new JLabel("SELECT ENDPOINTS OF YOUR SHIP");
         
         label1.setFont(font);
@@ -185,6 +187,7 @@ public class GameManager implements ActionListener {
 
     /**
      * Handles the placement of ships on the board
+     * @ param e ActionEvent
      */
     public void playerDeploymentListener(ActionEvent e) {
         int xTemp = -1;
@@ -207,63 +210,43 @@ public class GameManager implements ActionListener {
             xCoordinate1 = xTemp;
             yCoordinate1 = yTemp;
         } else {
-<<<<<<< HEAD
-            if (!armada.isBattleshipExists()) {
-                armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'B');
+            if (!armada.isCarrierExist()) {
+                if(armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'A')){
+                    label1.setText("PLACE YOUR BATTLESHIP");
+                    label2.setText("BATTLESHIP: 4 BLOCKS");
+                }  
                 xCoordinate1 = -1;
                 yCoordinate1 = -1;
-                
-                label1.setText("PLACE YOUR CARRIER");
-                label2.setText("CARRIER: 5 BLOCKS");
-            } else if (!armada.isCarrierExist()) {
-                armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'A');
+            } else if (!armada.isBattleshipExists()) {                
+                if(armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'B')){
+                    label1.setText("PLACE YOUR CRUISER");
+                    label2.setText("CRUISER: 3 BLOCKS");
+                }
                 xCoordinate1 = -1;
                 yCoordinate1 = -1;
-                
-                label1.setText("PLACE YOUR CRUISER");
-                label2.setText("CRUISER: 3 BLOCKS");
             } else if (!armada.isCruiserExists()) {
-                armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'C');
+                if(armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'C')){
+                    label1.setText("PLACE YOUR SUBMARINE");
+                    label2.setText("SUBMARINE: 3 BLOCKS");
+                }
                 xCoordinate1 = -1;
                 yCoordinate1 = -1;
-                
-                label1.setText("PLACE YOUR SUBMARINE");
-                label2.setText("SUBMARINE: 3 BLOCKS");
             } else if (!armada.isSubExists()) {
-                armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'S');
+                if(armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'S')){
+                    label1.setText("PLACE YOUR PATROL BOAT");
+                    label2.setText("PATROL BOAT: 2 BLOCKS");
+                }         
                 xCoordinate1 = -1;
                 yCoordinate1 = -1;
-                
-                label1.setText("PLACE YOUR PATROL BOAT");
-                label2.setText("PATROL BOAT: 2 BLOCKS");
             } else if (!armada.isPatrolBoatExists()) {
-                armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'P');
-=======
-            if (!armada2.isBattleshipExists()) {
-                armada2.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'B');
+                if(armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'P')){
+                    label1.setText("YOU ARE DONE ");
+                    label2.setText("CLICK CONTINUE");
+                }
                 xCoordinate1 = -1;
                 yCoordinate1 = -1;
-            } else if (!armada2.isCarrierExist()) {
-                armada2.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'A');
-                xCoordinate1 = -1;
-                yCoordinate1 = -1;
-            } else if (!armada2.isCruiserExists()) {
-                armada2.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'C');
-                xCoordinate1 = -1;
-                yCoordinate1 = -1;
-            } else if (!armada2.isSubExists()) {
-                armada2.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'S');
-                xCoordinate1 = -1;
-                yCoordinate1 = -1;
-            } else if (!armada2.isPatrolBoatExists()) {
-                armada2.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'P');
->>>>>>> aed092cb1f1cfbfef1a22e78a4bbf26a2647103c
-                xCoordinate1 = -1;
-                yCoordinate1 = -1;
-                
-                label1.setText("YOU ARE DONE ");
-                label2.setText("CLICK CONTINUE");
             }
+            
         }
 
         for (int x = 0; x < 10; x++) {
@@ -289,15 +272,17 @@ public class GameManager implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == continueButton){
-            if(isPlayer1Turn){
+            if(isPlayer1Turn && armada1.isPatrolBoatExists()){
                 clearPositionGrid();
                 isPlayer1Turn = false;
                 
-                label1.setText("PLACE YOUR BATTLESHIP");
-                label2.setText("BATTLESHIP: 4 BLOCKS");
+                label1.setText("PLACE YOUR CARRIER");
+                label2.setText("CARRIER: 5 BLOCKS");
                 label3.setText("");
-            }else{
-                System.exit(0);
+            }else if(!isPlayer1Turn && armada2.isPatrolBoatExists()){
+                gameBoardPanel = new GameBoard(player1,player2);
+                masterPanel.setVisible(false);
+                game.add(gameBoardPanel);
             }
         }
     }
