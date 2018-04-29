@@ -1,41 +1,30 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
-import java.util.*;
-
 
 public class StartMenu extends JPanel implements ActionListener{
-    //Containers and components
+    // Containers and components
     private Box centerButtonBox = Box.createVerticalBox();
+    
     private JPanel southButtonPanel;
     private JButton startButton = new JButton("START GAME");
     private JButton rulesButton = new JButton("VIEW RULES");
     private JButton exitButton = new JButton("EXIT");
-    Font font;
+    
+    private Font font;
 
     public StartMenu(){
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
 
-        //Set up bottom button panel
+        // Set up bottom button panel
         southButtonPanel = new JPanel();
         southButtonPanel.setLayout(new BorderLayout());
         southButtonPanel.setBackground(Color.BLACK);
-
-        //Read from font file
-        try{
-            //File path may need changing
-            //Maybe consider making this font global
-            InputStream is = new BufferedInputStream(new FileInputStream("res/RobotoMono-Medium.ttf"));
-            font = Font.createFont(Font.TRUETYPE_FONT, is);
-        }catch(FileNotFoundException e){
-            System.out.println("File not found");
-        }catch(IOException e){
-            System.out.println("Input/Output error");
-        }catch(FontFormatException e){
-            System.out.println("Font format exception");
-        }
+        
+        // Read from font file
+        FontSetup myFont = new FontSetup();
+        font = myFont.readFontFile();
 
         addComponents();
     }
@@ -113,20 +102,20 @@ public class StartMenu extends JPanel implements ActionListener{
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == startButton){
             //Set current panel to not be visible
-            //Add the namePromptPanel from BattleShip.java to the global frame
+            //Add the namePromptPanel from StartClass.java to the global frame
             //Set namePromptPanel to visible
 
             setVisible(false);
-            BattleShip.frame.add(BattleShip.namePromptPanel);
-            BattleShip.namePromptPanel.setVisible(true);
+            StartClass.getFrame().add(StartClass.getNamePrompt());
+            StartClass.getNamePrompt().setVisible(true);
         }else if(e.getSource() == rulesButton){
             //Set current panel to not be visible
-            //Add the rulesPanel from BattleShip.java to the global frame
+            //Add the rulesPanel from StartClass.java to the global frame
             //Set rulesPanel to visible
 
             setVisible(false);
-            BattleShip.frame.add(BattleShip.rulesPanel);
-            BattleShip.rulesPanel.setVisible(true);
+            StartClass.getFrame().add(StartClass.getRules());
+            StartClass.getRules().setVisible(true);
         }else if(e.getSource() == exitButton){
             System.exit(0);
         }

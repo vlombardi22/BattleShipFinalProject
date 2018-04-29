@@ -16,10 +16,15 @@ public class GameBoard extends JPanel implements ActionListener {
     
     private Board armada1;
     private Board armada2;
+    private String name1;
+    private String name2;
     private JButton[][] positionGrid;
+    private JButton[][] shootingGrid;
     private JPanel southPanel; // Panel to contain key and continue button
     Font font; 
     private JButton continueButton = new JButton("CONTINUE");
+    private int turnCount = 1;
+    private boolean finishTurn = false;
 
      /**
      * GameBoard constructor
@@ -31,6 +36,9 @@ public class GameBoard extends JPanel implements ActionListener {
         
         armada1 = player1.getArmada();
         armada2 = player2.getArmada();
+        
+        name1 = player1.getName();
+        name2 = player2.getName();
         
         // Set up panel to contain key and continue button
         southPanel = new JPanel(new BorderLayout());
@@ -74,7 +82,14 @@ public class GameBoard extends JPanel implements ActionListener {
      */
     private void addLabels(){
         // IMPORTANT!!! The string below will be replaced by the opponent's name
-        String opponent = "MARIO" + "'S";
+        String name = null;
+                if(turnCount%2==0) {
+                    name = name2;
+                } else if(turnCount%2==1){
+                    name = name1;
+                }
+        
+        String opponent = name + "'S";
         
         JPanel labelPanel = new JPanel(new BorderLayout());
         labelPanel.setBackground(Color.BLACK);
@@ -84,14 +99,14 @@ public class GameBoard extends JPanel implements ActionListener {
         playerLabel.setBorder(BorderFactory.createEmptyBorder(30,100,0,100));
         playerLabel.setFont(font);
         playerLabel.setForeground(Color.RED);
-        labelPanel.add(playerLabel,BorderLayout.LINE_START);
+        labelPanel.add(playerLabel,BorderLayout.LINE_END);
         
         // Creates label for opponent's board
-        JLabel opponentLabel = new JLabel(opponent + " BOARD");
+        JLabel opponentLabel = new JLabel("OPPONENT'S BOARD");
         opponentLabel.setBorder(BorderFactory.createEmptyBorder(30,100,0,100));
         opponentLabel.setFont(font);        
         opponentLabel.setForeground(Color.RED);
-        labelPanel.add(opponentLabel,BorderLayout.LINE_END);
+        labelPanel.add(opponentLabel,BorderLayout.LINE_START);
         
         add(labelPanel,BorderLayout.NORTH);
     }
@@ -104,22 +119,32 @@ public class GameBoard extends JPanel implements ActionListener {
         // Set up encompassing panels, outerPanel is BorderLayout by default
         JPanel outerPanel = new JPanel();
         JPanel innerPanel = new JPanel();
-        
-        positionGrid = new JButton[10][10];
+        JButton[][] tempGrid;
+        if(bound.equals(BorderLayout.LINE_START)){
+            shootingGrid = new JButton[10][10];
+            tempGrid = shootingGrid;
+        } else {
+            positionGrid = new JButton[10][10];
+            tempGrid = positionGrid;
+        }
+
         innerPanel.setLayout(new GridBagLayout());
 
         // Create button grid
         for(int x = 0; x < 10;x++){
             for(int y = 0; y < 10; y++){
                 GridBagConstraints constraints = new GridBagConstraints();
-                positionGrid[y][x] = new JButton("("+x+","+y+")");
-                positionGrid[y][x].setBackground(Color.BLUE);
+                tempGrid[y][x] = new JButton("("+x+","+y+")");
+                tempGrid[y][x].setBackground(Color.BLUE);
                 constraints.fill = GridBagConstraints.BOTH;
                 constraints.gridx = x;
                 constraints.gridy = y;
                 constraints.weightx = 1;
                 constraints.weighty = 1;
-                innerPanel.add(positionGrid[y][x], constraints);
+                if(bound.equals(BorderLayout.LINE_START)){
+                    tempGrid[y][x].addActionListener(this);
+                }
+                innerPanel.add(tempGrid[y][x], constraints);
             }
         }
         
@@ -133,6 +158,9 @@ public class GameBoard extends JPanel implements ActionListener {
         
         // bound is either BorderLayout.LINE_START or BorderLayout.LINE_END
         add(outerPanel,bound);
+        if(!bound.equals(BorderLayout.LINE_START)) {
+            colorPositionGrid();
+        }
     }
     
      /**
@@ -175,10 +203,121 @@ public class GameBoard extends JPanel implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == continueButton){
-            // Continue button action must be changed later
-            System.exit(0);
+    public void actionPerformed(ActionEvent e) {        
+        assert(turnCount <= 200);
+                   
+        if(e.getSource() == continueButton && finishTurn) {// Continue button action must be changed later
+            if(armada1.gameOver() || armada2.gameOver()){
+                String name;
+                if(turnCount%2==1) {
+                    name = name1;
+                } else {
+                    name = name2;
+                }
+            
+                setVisible(false);
+                GameManager.getFrame().add(new CongratsScreen(name)); 
+            } else {
+            
+                turnCount++;
+                clearPositionGrid();
+                clearShootingGrid();
+                colorPositionGrid();
+                colorShootingGrid();
+                finishTurn = false;
+            
+                // Go to switch screen
+                setVisible(false);
+                GameManager.getSwitchScreen().setVisible(true);     
+            }
+        }else if(!finishTurn) {
+            AttackListener(e);
+        }
+    }
+
+    private void clearShootingGrid(){
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                shootingGrid[y][x].setBackground(Color.BLUE);
+            }
+        }
+    }
+
+
+    private void clearPositionGrid(){
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                positionGrid[y][x].setBackground(Color.BLUE);
+            }
+        }
+    }
+
+
+    private void colorPositionGrid(){
+        Board armada;
+        if(turnCount % 2 == 1){
+            armada = armada1;
+
+        }else{
+            armada = armada2;
+        }
+        armada.displayPlayerBoard();
+        armada.displayEnemyBoard();
+
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                if(armada.checkSpace(x,y)){
+                    positionGrid[y][x].setBackground(Color.RED);
+                } else if (armada.checkShipSpace(y,x)) {
+                    positionGrid[y][x].setBackground(Color.LIGHT_GRAY);
+                }
+            }
+        }
+    }
+
+    private void colorShootingGrid(){
+
+        Board armada;
+        if(turnCount % 2 == 1){
+            armada = armada2;
+        }else{
+            armada = armada1;
+        }
+
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                if(armada.checkSpace(x,y)){
+                    shootingGrid[y][x].setBackground(Color.RED);
+                } else if (armada.checkHit(x,y)) {
+                    shootingGrid[y][x].setBackground(Color.WHITE);
+                }
+            }
+        }
+    }
+
+
+    public void AttackListener(ActionEvent e) {
+        Board armada;
+        if(turnCount % 2 == 1){
+            armada = armada2;
+        }else{
+            armada = armada1;
+        }
+
+
+        for (int x = 0; x < 10; x++) {
+            for (int y = 0; y < 10; y++) {
+                if(e.getSource() == shootingGrid[y][x]){
+                    if(armada.shoot(x,y)){
+                        finishTurn = true;
+                    }
+                    if(armada.checkSpace(x,y)){
+                        shootingGrid[y][x].setBackground(Color.RED);
+                    }else{
+                        shootingGrid[y][x].setBackground(Color.WHITE);
+                    }
+                }
+            }
         }
     }
 }

@@ -1,41 +1,35 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
-import java.util.*;
-
 
 public class NamePrompt extends JPanel implements ActionListener{
     //Containers and components
     private Box centerBox = Box.createVerticalBox();
+    
     private JPanel southButtonPanel;
     private JButton continueButton = new JButton("CONTINUE");
     private JButton exitButton = new JButton("EXIT");
-    Font font;
+    
+    private Font font;
+    
     private JTextField field1;
-    private JTextField field2;
+    private JTextField field2;    
+    
+    private JLabel noNameLabel;
 
     public NamePrompt(){
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
 
         //Set up bottom button panel
-        southButtonPanel = new JPanel();
-        southButtonPanel.setLayout(new BorderLayout());
+        southButtonPanel = new JPanel(new BorderLayout());
         southButtonPanel.setBackground(Color.BLACK);
+        
+        noNameLabel = new JLabel();
 
-        //Read from font file
-        try{
-            //File path may need changing
-            InputStream is = new BufferedInputStream(new FileInputStream("res/RobotoMono-Medium.ttf"));
-            font = Font.createFont(Font.TRUETYPE_FONT, is);
-        }catch(FileNotFoundException e){
-            System.out.println("File not found");
-        }catch(IOException e){
-            System.out.println("Input/Output error");
-        }catch(FontFormatException e){
-            System.out.println("Font format exception");
-        }
+        // Read from font file
+        FontSetup myFont = new FontSetup();
+        font = myFont.readFontFile();
 
         addComponents();
     }
@@ -119,12 +113,21 @@ public class NamePrompt extends JPanel implements ActionListener{
 
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == continueButton){
-            //Set current panel to not be visible
-            //Replace last line by adding GameManager and by setting it to visible
-            GameManager game = new GameManager(field1.getText(), field2.getText());
+            if(field1.getText().equals("") || field2.getText().equals("")){
+                continueButton.setText(" CONTINUE ");
+                noNameLabel.setText("BOTH NAMES MUST BE ENTERED TO CONTINUE");
+                noNameLabel.setBorder(BorderFactory.createEmptyBorder(0,50,0,0));
+                noNameLabel.setFont(font);
+                noNameLabel.setForeground(Color.RED);
+                southButtonPanel.add(noNameLabel,BorderLayout.CENTER);
+            }else{
+                //Set current panel to not be visible
+                //Replace last line by adding GameManager and by setting it to visible
+                GameManager game = new GameManager(field1.getText(), field2.getText());
 
-            BattleShip.frame.setVisible(false);
-            // BattleShip.frame.add(new StartMenu());
+                StartClass.getFrame().setVisible(false);
+                StartClass.getFrame().dispose();
+            }
         }else if(e.getSource() == exitButton){
             System.exit(0);
         }

@@ -2,14 +2,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
-import java.util.*;
 
 public class Rules extends JPanel implements ActionListener{
     //Containers and components
     private JPanel buttonPanel;
+    
     private JButton returnButton = new JButton("RETURN");
     private JButton exitButton = new JButton("EXIT");
-    Font font;
+    
+    private Font font;
 
     public Rules(){
         setLayout(new BorderLayout());
@@ -21,19 +22,10 @@ public class Rules extends JPanel implements ActionListener{
         buttonPanel.setBackground(Color.BLACK);
 
         //Read from font file
-        try{
-            //File path may need changing
-            InputStream is = new BufferedInputStream(new FileInputStream("res/RobotoMono-Medium.ttf"));
-            font = Font.createFont(Font.TRUETYPE_FONT, is);
-
-            addComponents();
-        }catch(FileNotFoundException e){
-            System.out.println("File not found");
-        }catch(IOException e){
-            System.out.println("Input/Output error");
-        }catch(FontFormatException e){
-            System.out.println("Font format exception");
-        }
+        FontSetup myFont = new FontSetup();
+        font = myFont.readFontFile();
+        
+        addComponents();
     }
 
     private void addComponents(){
@@ -127,7 +119,7 @@ public class Rules extends JPanel implements ActionListener{
             //Set start menu panel to visible
 
             setVisible(false);
-            BattleShip.startMenuPanel.setVisible(true);
+            StartClass.getStartMenu().setVisible(true);
         }else if(e.getSource() == exitButton){
             System.exit(0);
         }

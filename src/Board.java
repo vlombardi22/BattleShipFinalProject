@@ -147,6 +147,10 @@ public class Board {
         }
         return false;
     }
+    
+    public boolean checkHit(int x, int y){
+        return board[y][x].getHit();
+    }
 
     /**
      * returns true if all ships are sunk
@@ -191,6 +195,7 @@ public class Board {
         fleet[1].scuttle();
         fleet[2].scuttle();
         fleet[3].scuttle();
+        fleet[4].scuttle();
     }
 
     /**

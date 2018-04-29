@@ -6,17 +6,13 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class GameManager implements ActionListener {
     
-    private JFrame game;
+    private static JFrame game;
     private JPanel masterPanel;
-    private JPanel gameBoardPanel;
+    private static JPanel gameBoardPanel;
+    private static JPanel switchPanel;
     
     private Player player1;
     private Player player2;
@@ -43,6 +39,8 @@ public class GameManager implements ActionListener {
      * @param P2 String - player name
      */
     public GameManager(String P1, String P2){
+        switchPanel = new SwitchScreen();
+        
         // Initialize player objects     
         playerSetup(P1,P2);
         
@@ -52,7 +50,8 @@ public class GameManager implements ActionListener {
         masterPanel.setBackground(Color.BLACK);
         
         // Read from font file
-        readFontFile();               
+        FontSetup myFont = new FontSetup();
+        font = myFont.readFontFile();            
         // Create a board on the left side of the screen
         createBoard();
         // Give instructions to player        
@@ -66,21 +65,6 @@ public class GameManager implements ActionListener {
         game.setExtendedState(JFrame.MAXIMIZED_BOTH);
         game.pack();
         game.setVisible(true);
-    }
-    
-    private void readFontFile(){
-         //Read from font file
-        try{
-            //File path may need changing
-            InputStream is = new BufferedInputStream(new FileInputStream("res/RobotoMono-Medium.ttf"));
-            font = Font.createFont(Font.TRUETYPE_FONT, is);
-        }catch(FileNotFoundException e){
-            System.out.println("File not found");
-        }catch(IOException e){
-            System.out.println("Input/Output error");
-        }catch(FontFormatException e){
-            System.out.println("Font format exception");
-        }
     }
     
      /**
@@ -269,6 +253,18 @@ public class GameManager implements ActionListener {
         }
     }
 
+    public static JFrame getFrame(){
+        return game;
+    }
+    
+    public static JPanel getSwitchScreen(){
+        return switchPanel;
+    }
+    
+    public static JPanel getGameBoard(){
+        return gameBoardPanel;
+    }
+    
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == continueButton){
@@ -282,7 +278,7 @@ public class GameManager implements ActionListener {
             }else if(!isPlayer1Turn && armada2.isPatrolBoatExists()){
                 gameBoardPanel = new GameBoard(player1,player2);
                 masterPanel.setVisible(false);
-                game.add(gameBoardPanel);
+                game.add(switchPanel);
             }
         }
     }
