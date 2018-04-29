@@ -1,0 +1,18 @@
+﻿Objective: Sink the opponents ships before they sink yours.
+
+How to play:
+    - The game environment consists of four 10 x 10 grids.
+    - Each player has two of these grids.
+    - One of the grids represents your fleet while the other grid represents the shots you have fired at the enemy fleet.
+    - Each player starts out with five ships of varying lengths.
+    - Each player must position their ships on one of their grids in a non-overlapping manner.
+    - Players do not know where each others ship’s are positioned.
+    - Players take turns firing shots at the opponent’s ships.
+    - If their shots connect that specific part of the ship is damaged.
+    - Each ship takes up a certain number of squares on the grid.
+    - Each shot takes up one coordinate or space on the grid.
+    - If all of the spots on a ship have been damaged it is considered destroyed.
+    - After a shot has been fired they are notified if their shot hit an enemy ship.
+
+
+

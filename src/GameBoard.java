@@ -23,12 +23,13 @@ public class GameBoard extends JPanel implements ActionListener {
     private JPanel southPanel; // Panel to contain key and continue button
     private JLabel playerLabel;
     private JLabel opponentLabel;
-    private JLabel shipsLabel;
+	private JLabel noticeLabel;
     
     Font font; 
     private JButton continueButton = new JButton("CONTINUE");
     private int turnCount;
     private boolean finishTurn = false;
+
 
      /**
      * GameBoard constructor
@@ -40,10 +41,11 @@ public class GameBoard extends JPanel implements ActionListener {
         
         armada1 = player1.getArmada();
         armada2 = player2.getArmada();
+        armada2.apocalypse();
         
         name1 = player1.getName();
         name2 = player2.getName();
-        
+		
         turnCount = 1;
         
         // Set up panel to contain key and continue button
@@ -70,25 +72,35 @@ public class GameBoard extends JPanel implements ActionListener {
      * Adds labels for each board
      */
     private void addLabels(){
-        // IMPORTANT!!! The string below will be replaced by the opponent's name        
+        // IMPORTANT!!! The string below will be replaced by the opponent's name
+        String name = null;
+                if(turnCount%2==0) {
+                    name = name1;
+                } else if(turnCount%2==1){
+                    name = name2;
+                }
+        
+        String opponent = name + "'S";
+        
         JPanel labelPanel = new JPanel(new BorderLayout());
         labelPanel.setBackground(Color.BLACK);
         
         // Creates label for player's board
-        playerLabel = new JLabel("YOUR BOARD");
-        playerLabel.setBorder(BorderFactory.createEmptyBorder(30,100,0,100));
-        playerLabel.setFont(font);
-        playerLabel.setForeground(Color.RED);
-        labelPanel.add(playerLabel,BorderLayout.LINE_END);
+        opponentLabel = new JLabel(name2 + "'s BOARD");
+        opponentLabel.setBorder(BorderFactory.createEmptyBorder(30,100,0,100));
+        opponentLabel.setFont(font);
+        opponentLabel.setForeground(Color.RED);
+        labelPanel.add(opponentLabel, BorderLayout.LINE_END);
         
         // Creates label for opponent's board
-        opponentLabel = new JLabel(name2 + "'S BOARD");
-        opponentLabel.setBorder(BorderFactory.createEmptyBorder(30,100,0,100));
-        opponentLabel.setFont(font);        
-        opponentLabel.setForeground(Color.RED);
-        labelPanel.add(opponentLabel,BorderLayout.LINE_START);
+
+        playerLabel = new JLabel("YOUR BOARD");
+        playerLabel.setBorder(BorderFactory.createEmptyBorder(30,100,0,100));
+        playerLabel.setFont(font);        
+        playerLabel.setForeground(Color.RED);
+        labelPanel.add(playerLabel, BorderLayout.LINE_START);
         
-        add(labelPanel,BorderLayout.NORTH);
+        add(labelPanel, BorderLayout.NORTH);
     }
     
     /**
@@ -101,11 +113,11 @@ public class GameBoard extends JPanel implements ActionListener {
         JPanel innerPanel = new JPanel();
         JButton[][] tempGrid;
         if(bound.equals(BorderLayout.LINE_START)){
-            shootingGrid = new JButton[10][10];
-            tempGrid = shootingGrid;
-        } else {
             positionGrid = new JButton[10][10];
             tempGrid = positionGrid;
+        } else {
+            shootingGrid = new JButton[10][10];
+            tempGrid = shootingGrid;
         }
 
         innerPanel.setLayout(new GridBagLayout());
@@ -121,7 +133,7 @@ public class GameBoard extends JPanel implements ActionListener {
                 constraints.gridy = y;
                 constraints.weightx = 1;
                 constraints.weighty = 1;
-                if(bound.equals(BorderLayout.LINE_START)){
+                if(!bound.equals(BorderLayout.LINE_START)){
                     tempGrid[y][x].addActionListener(this);
                 }
                 innerPanel.add(tempGrid[y][x], constraints);
@@ -138,7 +150,7 @@ public class GameBoard extends JPanel implements ActionListener {
         
         // bound is either BorderLayout.LINE_START or BorderLayout.LINE_END
         add(outerPanel,bound);
-        if(!bound.equals(BorderLayout.LINE_START)) {
+        if(bound.equals(BorderLayout.LINE_START)) {
             colorPositionGrid();
         }
     }
@@ -161,13 +173,12 @@ public class GameBoard extends JPanel implements ActionListener {
         missLabel.setForeground(Color.WHITE);
         missLabel.setFont(font);
         keyPanel.add(missLabel);
-        
-        shipsLabel = new JLabel("TARGETS DESTROYED: ");
-        shipsLabel.setForeground(Color.BLUE);
-        shipsLabel.setFont(font);
-        shipsLabel.setBorder(BorderFactory.createEmptyBorder(0,80,10,80));
-        keyPanel.add(shipsLabel);
-        
+
+        noticeLabel = new JLabel("");
+        noticeLabel.setForeground(Color.BLUE);
+        noticeLabel.setFont(font);
+        keyPanel.add(noticeLabel);
+
         southPanel.add(keyPanel,BorderLayout.LINE_START);
     }
     
@@ -191,16 +202,15 @@ public class GameBoard extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {        
         assert(turnCount <= 200);
-        
         String name;
         if(turnCount%2==1) {
             name = name1;
         } else {
             name = name2;
         }
-                
+		
         if(e.getSource() == continueButton && finishTurn) {// Continue button action must be changed later
-            if(armada1.gameOver() || armada2.gameOver()){              
+            if(armada1.gameOver() || armada2.gameOver()){            
                 setVisible(false);
                 GameManager.getFrame().add(new CongratsScreen(name)); 
             } else {            
@@ -210,7 +220,12 @@ public class GameBoard extends JPanel implements ActionListener {
                 colorPositionGrid();
                 colorShootingGrid();
                 finishTurn = false;
-                
+                setNotice();
+                if (turnCount%2==1) {
+                    name = name2;
+                } else {
+                    name = name1;
+                }
                 // Go to switch screen
                 setVisible(false);
                 GameManager.getSwitchScreen().setVisible(true);     
@@ -218,8 +233,6 @@ public class GameBoard extends JPanel implements ActionListener {
             }
         }else if(!finishTurn) {
             AttackListener(e);
-        }else if(e.getSource() == continueButton){
-            System.exit(0);
         }
     }
 
@@ -257,7 +270,7 @@ public class GameBoard extends JPanel implements ActionListener {
                 if(armada.checkSpace(x,y)){
                     positionGrid[y][x].setBackground(Color.RED);
                 } else if (armada.checkShipSpace(y,x)) {
-                    positionGrid[y][x].setBackground(Color.LIGHT_GRAY);
+                    positionGrid[y][x].setBackground(Color.gray);
                 }
             }
         }
@@ -291,7 +304,6 @@ public class GameBoard extends JPanel implements ActionListener {
             armada = armada1;
         }
 
-
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
                 if(e.getSource() == shootingGrid[y][x]){
@@ -300,21 +312,43 @@ public class GameBoard extends JPanel implements ActionListener {
                     }
                     if(armada.checkSpace(x,y)){
                         shootingGrid[y][x].setBackground(Color.RED);
-//                        if(!armada.isCarrierExist())
-//                            shipsLabel.setText(shipsLabel.getText() + "A ");
-//                        else if(!armada.isBattleshipExists())
-//                            shipsLabel.setText(shipsLabel.getText() + "B ");
-//                        else if(!armada.isSubExists())
-//                            shipsLabel.setText(shipsLabel.getText() + "S ");
-//                        else if(!armada.isCruiserExists())
-//                            shipsLabel.setText(shipsLabel.getText() + "C ");
-//                        else if(!armada.isPatrolBoatExists())
-//                            shipsLabel.setText(shipsLabel.getText() + "P ");                        
                     }else{
                         shootingGrid[y][x].setBackground(Color.WHITE);
                     }
                 }
             }
         }
+    }
+
+    private void setNotice(){
+        Board armada;
+        String targetList = "targets destroyed ";
+
+        if(turnCount % 2 == 1){
+            armada = armada2;
+        }else{
+            armada = armada1;
+        }
+
+        if(armada.isCarrierDestroyed()){
+            targetList += " A ";
+        }
+
+        if(armada.isBattleShipDestroyed()){
+            targetList += " B ";
+        }
+
+        if(armada.isCruiserDestroyed()){
+            targetList += " C ";
+        }
+
+        if(armada.isSubmarineDestroyed()){
+            targetList += " S ";
+        }
+        if (armada.isPatrolBoatDestroyed()){
+            targetList += " P ";
+        }
+        noticeLabel.setText(targetList);
+
     }
 }

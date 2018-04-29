@@ -81,6 +81,8 @@ public class SwitchScreen extends JPanel implements ActionListener{
             setVisible(false);
             GameManager.getFrame().add(GameManager.getGameBoard());
             GameManager.getGameBoard().setVisible(true);
+        }else if(e.getSource() == exitButton){
+            System.exit(0);
         }
     }
 }
