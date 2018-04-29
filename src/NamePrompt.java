@@ -133,4 +133,3 @@ public class NamePrompt extends JPanel implements ActionListener{
         }
     }
 }
-

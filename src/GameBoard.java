@@ -21,9 +21,12 @@ public class GameBoard extends JPanel implements ActionListener {
     private JButton[][] positionGrid;
     private JButton[][] shootingGrid;
     private JPanel southPanel; // Panel to contain key and continue button
+    private JLabel playerLabel;
+    private JLabel opponentLabel;
+    
     Font font; 
     private JButton continueButton = new JButton("CONTINUE");
-    private int turnCount = 1;
+    private int turnCount;
     private boolean finishTurn = false;
 
      /**
@@ -40,12 +43,15 @@ public class GameBoard extends JPanel implements ActionListener {
         name1 = player1.getName();
         name2 = player2.getName();
         
+        turnCount = 1;
+        
         // Set up panel to contain key and continue button
         southPanel = new JPanel(new BorderLayout());
         southPanel.setBackground(Color.BLACK);
         
-        // Read .ttf file 
-        readFontFile();    
+        // Read from font file
+        FontSetup myFont = new FontSetup();
+        font = myFont.readFontFile();  
         font = font.deriveFont(30f);
         
         addLabels();
@@ -60,33 +66,15 @@ public class GameBoard extends JPanel implements ActionListener {
     }
     
      /**
-     * Reads from a .ttf file
-     */
-    private void readFontFile(){
-        //Read from font file
-        try{
-            //File path may need changing
-            InputStream is = new BufferedInputStream(new FileInputStream("res/RobotoMono-Medium.ttf"));
-            font = Font.createFont(Font.TRUETYPE_FONT, is);
-        }catch(FileNotFoundException e){
-            System.out.println("File not found");
-        }catch(IOException e){
-            System.out.println("Input/Output error");
-        }catch(FontFormatException e){
-            System.out.println("Font format exception");
-        }
-    }
-    
-     /**
      * Adds labels for each board
      */
     private void addLabels(){
         // IMPORTANT!!! The string below will be replaced by the opponent's name
         String name = null;
                 if(turnCount%2==0) {
-                    name = name2;
-                } else if(turnCount%2==1){
                     name = name1;
+                } else if(turnCount%2==1){
+                    name = name2;
                 }
         
         String opponent = name + "'S";
@@ -95,14 +83,14 @@ public class GameBoard extends JPanel implements ActionListener {
         labelPanel.setBackground(Color.BLACK);
         
         // Creates label for player's board
-        JLabel playerLabel = new JLabel("YOUR BOARD");
+        playerLabel = new JLabel("YOUR BOARD");
         playerLabel.setBorder(BorderFactory.createEmptyBorder(30,100,0,100));
         playerLabel.setFont(font);
         playerLabel.setForeground(Color.RED);
         labelPanel.add(playerLabel,BorderLayout.LINE_END);
         
         // Creates label for opponent's board
-        JLabel opponentLabel = new JLabel("OPPONENT'S BOARD");
+        opponentLabel = new JLabel(name2 + "'S BOARD");
         opponentLabel.setBorder(BorderFactory.createEmptyBorder(30,100,0,100));
         opponentLabel.setFont(font);        
         opponentLabel.setForeground(Color.RED);
@@ -205,7 +193,8 @@ public class GameBoard extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {        
         assert(turnCount <= 200);
-                   
+        
+        
         if(e.getSource() == continueButton && finishTurn) {// Continue button action must be changed later
             if(armada1.gameOver() || armada2.gameOver()){
                 String name;
@@ -217,8 +206,7 @@ public class GameBoard extends JPanel implements ActionListener {
             
                 setVisible(false);
                 GameManager.getFrame().add(new CongratsScreen(name)); 
-            } else {
-            
+            } else {            
                 turnCount++;
                 clearPositionGrid();
                 clearShootingGrid();
@@ -226,9 +214,16 @@ public class GameBoard extends JPanel implements ActionListener {
                 colorShootingGrid();
                 finishTurn = false;
             
+                String name;
+                if(turnCount%2==1)
+                    name = name2;
+                else
+                    name = name1;
+                
                 // Go to switch screen
                 setVisible(false);
                 GameManager.getSwitchScreen().setVisible(true);     
+                opponentLabel.setText(name + "'S BOARD");
             }
         }else if(!finishTurn) {
             AttackListener(e);
@@ -295,7 +290,6 @@ public class GameBoard extends JPanel implements ActionListener {
         }
     }
 
-
     public void AttackListener(ActionEvent e) {
         Board armada;
         if(turnCount % 2 == 1){
@@ -321,4 +315,3 @@ public class GameBoard extends JPanel implements ActionListener {
         }
     }
 }
-
