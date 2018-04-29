@@ -21,12 +21,15 @@ public class GameBoard extends JPanel implements ActionListener {
     private JButton[][] positionGrid;
     private JButton[][] shootingGrid;
     private JPanel southPanel; // Panel to contain key and continue button
+    private JLabel playerLabel;
+    private JLabel opponentLabel;
+	private JLabel noticeLabel;
+    
     Font font; 
     private JButton continueButton = new JButton("CONTINUE");
-    private int turnCount = 1;
+    private int turnCount;
     private boolean finishTurn = false;
-    private JLabel playerLabel;
-    private JLabel noticeLabel;
+
 
      /**
      * GameBoard constructor
@@ -41,13 +44,16 @@ public class GameBoard extends JPanel implements ActionListener {
         
         name1 = player1.getName();
         name2 = player2.getName();
+		
+		turnCount = 1;
         
         // Set up panel to contain key and continue button
         southPanel = new JPanel(new BorderLayout());
         southPanel.setBackground(Color.BLACK);
         
-        // Read .ttf file 
-        readFontFile();    
+        // Read from font file
+        FontSetup myFont = new FontSetup();
+        font = myFont.readFontFile();  
         font = font.deriveFont(30f);
         
         addLabels();
@@ -62,45 +68,36 @@ public class GameBoard extends JPanel implements ActionListener {
     }
     
      /**
-     * Reads from a .ttf file
-     */
-    private void readFontFile(){
-        //Read from font file
-        try{
-            //File path may need changing
-            InputStream is = new BufferedInputStream(new FileInputStream("res/RobotoMono-Medium.ttf"));
-            font = Font.createFont(Font.TRUETYPE_FONT, is);
-        }catch(FileNotFoundException e){
-            System.out.println("File not found");
-        }catch(IOException e){
-            System.out.println("Input/Output error");
-        }catch(FontFormatException e){
-            System.out.println("Font format exception");
-        }
-    }
-    
-     /**
      * Adds labels for each board
      */
     private void addLabels(){
         // IMPORTANT!!! The string below will be replaced by the opponent's name
+        String name = null;
+                if(turnCount%2==0) {
+                    name = name1;
+                } else if(turnCount%2==1){
+                    name = name2;
+                }
+        
+        String opponent = name + "'S";
         
         JPanel labelPanel = new JPanel(new BorderLayout());
         labelPanel.setBackground(Color.BLACK);
         
         // Creates label for player's board
-        playerLabel = new JLabel(name2 + "'s BOARD");
-        playerLabel.setBorder(BorderFactory.createEmptyBorder(30,100,0,100));
-        playerLabel.setFont(font);
-        playerLabel.setForeground(Color.RED);
-        labelPanel.add(playerLabel, BorderLayout.LINE_END);
+        opponentLabel = new JLabel(name2 + "'s BOARD");
+        opponentLabel.setBorder(BorderFactory.createEmptyBorder(30,100,0,100));
+        opponentLabel.setFont(font);
+        opponentLabel.setForeground(Color.RED);
+        labelPanel.add(opponentLabel, BorderLayout.LINE_END);
         
         // Creates label for opponent's board
-        JLabel opponentLabel = new JLabel("YOUR BOARD");
-        opponentLabel.setBorder(BorderFactory.createEmptyBorder(30,100,0,100));
-        opponentLabel.setFont(font);        
-        opponentLabel.setForeground(Color.RED);
-        labelPanel.add(opponentLabel, BorderLayout.LINE_START);
+
+        playerLabel = new JLabel("YOUR BOARD");
+        playerLabel.setBorder(BorderFactory.createEmptyBorder(30,100,0,100));
+        playerLabel.setFont(font);        
+        playerLabel.setForeground(Color.RED);
+        labelPanel.add(playerLabel, BorderLayout.LINE_START);
         
         add(labelPanel, BorderLayout.NORTH);
     }
@@ -210,31 +207,30 @@ public class GameBoard extends JPanel implements ActionListener {
         } else {
             name = name2;
         }
-
+		
         if(e.getSource() == continueButton && finishTurn) {// Continue button action must be changed later
             if(armada1.gameOver() || armada2.gameOver()){
 
             
                 setVisible(false);
                 GameManager.getFrame().add(new CongratsScreen(name)); 
-            } else {
-            
+            } else {            
                 turnCount++;
                 clearPositionGrid();
                 clearShootingGrid();
                 colorPositionGrid();
                 colorShootingGrid();
                 finishTurn = false;
-                if(turnCount%2==1) {
-                    playerLabel.setText(name2 + "'s BOARD");
-                } else {
-                    playerLabel.setText(name1 + "'s BOARD");
-                }
                 setNotice();
-
+                if (turnCount%2==1) {
+                    name = name2;
+                } else {
+                    name = name1;
+                }
                 // Go to switch screen
                 setVisible(false);
                 GameManager.getSwitchScreen().setVisible(true);     
+                opponentLabel.setText(name + "'S BOARD");
             }
         }else if(!finishTurn) {
             AttackListener(e);
@@ -275,7 +271,7 @@ public class GameBoard extends JPanel implements ActionListener {
                 if(armada.checkSpace(x,y)){
                     positionGrid[y][x].setBackground(Color.RED);
                 } else if (armada.checkShipSpace(y,x)) {
-                    positionGrid[y][x].setBackground(Color.LIGHT_GRAY);
+                    positionGrid[y][x].setBackground(Color.gray);
                 }
             }
         }
@@ -357,3 +353,6 @@ public class GameBoard extends JPanel implements ActionListener {
 
     }
 }
+
+
+

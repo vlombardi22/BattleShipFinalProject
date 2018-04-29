@@ -70,5 +70,3 @@ public class SwitchScreen extends JPanel implements ActionListener{
         }
     }
 }
-
-

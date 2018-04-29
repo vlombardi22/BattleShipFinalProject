@@ -64,6 +64,4 @@ public class Tile {
     public void setHit(boolean hit) {
         isHit = hit;
     }
-
-
 }

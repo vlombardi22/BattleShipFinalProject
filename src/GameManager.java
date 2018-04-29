@@ -277,6 +277,7 @@ public class GameManager implements ActionListener {
                 label3.setText("");
             }else if(!isPlayer1Turn && armada2.isPatrolBoatExists()){
                 gameBoardPanel = new GameBoard(player1,player2);
+                
                 masterPanel.setVisible(false);
                 game.add(switchPanel);
             }
