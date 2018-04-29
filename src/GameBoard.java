@@ -25,6 +25,8 @@ public class GameBoard extends JPanel implements ActionListener {
     private JButton continueButton = new JButton("CONTINUE");
     private int turnCount = 1;
     private boolean finishTurn = false;
+    private JLabel playerLabel;
+    private JLabel noticeLabel;
 
      /**
      * GameBoard constructor
@@ -82,33 +84,25 @@ public class GameBoard extends JPanel implements ActionListener {
      */
     private void addLabels(){
         // IMPORTANT!!! The string below will be replaced by the opponent's name
-        String name = null;
-                if(turnCount%2==0) {
-                    name = name2;
-                } else if(turnCount%2==1){
-                    name = name1;
-                }
-        
-        String opponent = name + "'S";
         
         JPanel labelPanel = new JPanel(new BorderLayout());
         labelPanel.setBackground(Color.BLACK);
         
         // Creates label for player's board
-        JLabel playerLabel = new JLabel("YOUR BOARD");
+        playerLabel = new JLabel(name2 + "'s BOARD");
         playerLabel.setBorder(BorderFactory.createEmptyBorder(30,100,0,100));
         playerLabel.setFont(font);
         playerLabel.setForeground(Color.RED);
-        labelPanel.add(playerLabel,BorderLayout.LINE_END);
+        labelPanel.add(playerLabel, BorderLayout.LINE_END);
         
         // Creates label for opponent's board
-        JLabel opponentLabel = new JLabel("OPPONENT'S BOARD");
+        JLabel opponentLabel = new JLabel("YOUR BOARD");
         opponentLabel.setBorder(BorderFactory.createEmptyBorder(30,100,0,100));
         opponentLabel.setFont(font);        
         opponentLabel.setForeground(Color.RED);
-        labelPanel.add(opponentLabel,BorderLayout.LINE_START);
+        labelPanel.add(opponentLabel, BorderLayout.LINE_START);
         
-        add(labelPanel,BorderLayout.NORTH);
+        add(labelPanel, BorderLayout.NORTH);
     }
     
     /**
@@ -121,11 +115,11 @@ public class GameBoard extends JPanel implements ActionListener {
         JPanel innerPanel = new JPanel();
         JButton[][] tempGrid;
         if(bound.equals(BorderLayout.LINE_START)){
-            shootingGrid = new JButton[10][10];
-            tempGrid = shootingGrid;
-        } else {
             positionGrid = new JButton[10][10];
             tempGrid = positionGrid;
+        } else {
+            shootingGrid = new JButton[10][10];
+            tempGrid = shootingGrid;
         }
 
         innerPanel.setLayout(new GridBagLayout());
@@ -141,7 +135,7 @@ public class GameBoard extends JPanel implements ActionListener {
                 constraints.gridy = y;
                 constraints.weightx = 1;
                 constraints.weighty = 1;
-                if(bound.equals(BorderLayout.LINE_START)){
+                if(!bound.equals(BorderLayout.LINE_START)){
                     tempGrid[y][x].addActionListener(this);
                 }
                 innerPanel.add(tempGrid[y][x], constraints);
@@ -158,7 +152,7 @@ public class GameBoard extends JPanel implements ActionListener {
         
         // bound is either BorderLayout.LINE_START or BorderLayout.LINE_END
         add(outerPanel,bound);
-        if(!bound.equals(BorderLayout.LINE_START)) {
+        if(bound.equals(BorderLayout.LINE_START)) {
             colorPositionGrid();
         }
     }
@@ -181,7 +175,12 @@ public class GameBoard extends JPanel implements ActionListener {
         missLabel.setForeground(Color.WHITE);
         missLabel.setFont(font);
         keyPanel.add(missLabel);
-        
+
+        noticeLabel = new JLabel("");
+        noticeLabel.setForeground(Color.BLUE);
+        noticeLabel.setFont(font);
+        keyPanel.add(noticeLabel);
+
         southPanel.add(keyPanel,BorderLayout.LINE_START);
     }
     
@@ -205,15 +204,16 @@ public class GameBoard extends JPanel implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {        
         assert(turnCount <= 200);
-                   
+        String name;
+        if(turnCount%2==1) {
+            name = name1;
+        } else {
+            name = name2;
+        }
+
         if(e.getSource() == continueButton && finishTurn) {// Continue button action must be changed later
             if(armada1.gameOver() || armada2.gameOver()){
-                String name;
-                if(turnCount%2==1) {
-                    name = name1;
-                } else {
-                    name = name2;
-                }
+
             
                 setVisible(false);
                 GameManager.getFrame().add(new CongratsScreen(name)); 
@@ -225,7 +225,13 @@ public class GameBoard extends JPanel implements ActionListener {
                 colorPositionGrid();
                 colorShootingGrid();
                 finishTurn = false;
-            
+                if(turnCount%2==1) {
+                    playerLabel.setText(name2 + "'s BOARD");
+                } else {
+                    playerLabel.setText(name1 + "'s BOARD");
+                }
+                setNotice();
+
                 // Go to switch screen
                 setVisible(false);
                 GameManager.getSwitchScreen().setVisible(true);     
@@ -295,7 +301,6 @@ public class GameBoard extends JPanel implements ActionListener {
         }
     }
 
-
     public void AttackListener(ActionEvent e) {
         Board armada;
         if(turnCount % 2 == 1){
@@ -303,7 +308,6 @@ public class GameBoard extends JPanel implements ActionListener {
         }else{
             armada = armada1;
         }
-
 
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
@@ -320,5 +324,36 @@ public class GameBoard extends JPanel implements ActionListener {
             }
         }
     }
-}
 
+    private void setNotice(){
+        Board armada;
+        String targetList = "targets destroyed ";
+
+        if(turnCount % 2 == 1){
+            armada = armada2;
+        }else{
+            armada = armada1;
+        }
+
+        if(armada.isCarrierDestroyed()){
+            targetList += " A ";
+        }
+
+        if(armada.isBattleShipDestroyed()){
+            targetList += " B ";
+        }
+
+        if(armada.isCruiserDestroyed()){
+            targetList += " C ";
+        }
+
+        if(armada.isSubmarineDestroyed()){
+            targetList += " S ";
+        }
+        if (armada.isPatrolBoatDestroyed()){
+            targetList += " P ";
+        }
+        noticeLabel.setText(targetList);
+
+    }
+}

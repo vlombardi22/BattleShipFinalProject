@@ -18,7 +18,6 @@ public class Board {
     /**
      * constructor initializes 10 by 10 grid and a 5 ship fleet. all tile's on the grid are set to no be part
      * of a ship and to not be hit.
-     * @param name
      */
     public Board(){
         board = new Tile[10][10];
@@ -73,6 +72,25 @@ public class Board {
         return patrolBoatExists;
     }
 
+    public boolean isBattleShipDestroyed(){
+        return fleet[0].isSunk();
+    }
+
+    public boolean isCarrierDestroyed(){
+        return fleet[1].isSunk();
+    }
+
+    public boolean isSubmarineDestroyed(){
+        return fleet[2].isSunk();
+    }
+
+    public boolean isCruiserDestroyed(){
+        return fleet[3].isSunk();
+    }
+
+    public boolean isPatrolBoatDestroyed(){
+        return fleet[4].isSunk();
+    }
 
     /**
      * displays your board to the enemy. Only damaged portions of ships are shown. also displays missed shots.
