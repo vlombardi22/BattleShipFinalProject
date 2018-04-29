@@ -8,6 +8,6 @@ public class BattleShip {
     public static void main(String[] args)
             throws FileNotFoundException, IOException, FontFormatException {
         StartClass game = new StartClass();
-        game.poopinthepants();
+        game.startGame();
     }
 }

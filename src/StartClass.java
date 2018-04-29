@@ -20,7 +20,7 @@ public class StartClass {
     private static JPanel rulesPanel;
     private static JPanel namePromptPanel;
     
-    public static void poopinthepants(){
+    public static void startGame(){
         //Set up global frame
         frame = new JFrame();
         frame.setTitle("BattleShip");

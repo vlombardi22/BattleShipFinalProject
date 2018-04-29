@@ -84,7 +84,7 @@ public class CongratsScreen extends JPanel implements ActionListener{
             setVisible(false);
             
             StartClass newGame = new StartClass(); 
-            newGame.poopinthepants();
+            newGame.startGame();
             GameManager.getFrame().dispose();            
         }else if(e.getSource() == exitButton){
             System.exit(0);
