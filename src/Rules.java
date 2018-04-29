@@ -60,7 +60,7 @@ public class Rules extends JPanel implements ActionListener{
         try{
             //File path may need changing
             in = new BufferedReader(new FileReader("res/Rules.txt"));
-            font = font.deriveFont(35f);
+            font = font.deriveFont(26f);
             JLabel[] rulesLabel = new JLabel[19];
             int lineCount = 0;
 

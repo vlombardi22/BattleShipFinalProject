@@ -41,6 +41,8 @@ public class GameManager implements ActionListener {
     public GameManager(String P1, String P2){
         switchPanel = new SwitchScreen();
         
+        P1 = P1.toUpperCase();
+        P2 = P2.toUpperCase();
         // Initialize player objects     
         playerSetup(P1,P2);
         
@@ -226,6 +228,7 @@ public class GameManager implements ActionListener {
                 if(armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'P')){
                     label1.setText("YOU ARE DONE ");
                     label2.setText("CLICK CONTINUE");
+                    label3.setText("");
                 }
                 xCoordinate1 = -1;
                 yCoordinate1 = -1;
@@ -274,7 +277,7 @@ public class GameManager implements ActionListener {
                 
                 label1.setText("PLACE YOUR CARRIER");
                 label2.setText("CARRIER: 5 BLOCKS");
-                label3.setText("");
+                label3.setText("SELECT ENDPOINTS OF YOUR SHIP");
             }else if(!isPlayer1Turn && armada2.isPatrolBoatExists()){
                 gameBoardPanel = new GameBoard(player1,player2);
                 

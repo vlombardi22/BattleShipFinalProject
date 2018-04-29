@@ -35,12 +35,11 @@ public class NamePrompt extends JPanel implements ActionListener{
     }
 
     private void addComponents(){
-        font = font.deriveFont(30f);
-
         JPanel helper = new JPanel();
         helper.setBackground(Color.BLACK);
-
+        
         addNamePrompts();
+        font = font.deriveFont(30f);
         addExitButton();
         addContinueButton();
 
@@ -62,12 +61,15 @@ public class NamePrompt extends JPanel implements ActionListener{
         promptPanel.setLayout(new FlowLayout());
         promptPanel.setBackground(Color.BLACK);
 
+        font = font.deriveFont(30f);
         JLabel prompt1 = new JLabel("PLAYER 1'S NAME: ");
         prompt1.setForeground(Color.RED);
         prompt1.setFont(font);
 
+        font = font.deriveFont(20f);
         promptPanel.add(prompt1);
         field1 = new JTextField(16);
+        field1.setFont(font);
         promptPanel.add(field1);
 
         centerBox.add(promptPanel);
@@ -78,12 +80,15 @@ public class NamePrompt extends JPanel implements ActionListener{
         promptPanel.setLayout(new FlowLayout());
         promptPanel.setBackground(Color.BLACK);
 
+        font = font.deriveFont(30f);
         JLabel prompt2 = new JLabel("PLAYER 2'S NAME: ");
         prompt2.setForeground(Color.RED);
         prompt2.setFont(font);
 
+        font = font.deriveFont(20f);
         promptPanel.add(prompt2);
         field2 = new JTextField(16);
+        field2.setFont(font);
         promptPanel.add(field2);
 
         centerBox.add(promptPanel);

@@ -6,6 +6,7 @@ public class SwitchScreen extends JPanel implements ActionListener{
     //Containers and components
     private JPanel buttonPanel;
     private JButton continueButton = new JButton("CONTINUE");
+    private JButton exitButton = new JButton("EXIT");
     private Font font;
     
     public SwitchScreen(){ 
@@ -28,6 +29,7 @@ public class SwitchScreen extends JPanel implements ActionListener{
         addText();  
         font = font.deriveFont(30f);
         addContinueButton();
+        addExitButton();
         add(buttonPanel,BorderLayout.SOUTH); 
     }
     
@@ -53,6 +55,18 @@ public class SwitchScreen extends JPanel implements ActionListener{
         continueButton.setForeground(Color.RED);
         
         buttonPanel.add(continueButton,BorderLayout.LINE_END);
+    }
+    
+    private void addExitButton(){
+        exitButton.addActionListener(this);
+        exitButton.setPreferredSize(new Dimension(200,75));
+        exitButton.setFont(font);
+        exitButton.setBackground(Color.BLACK);
+        exitButton.setBorder(BorderFactory.createLineBorder(Color.RED));
+        exitButton.setForeground(Color.RED);
+        exitButton.setFocusPainted(false);
+
+        buttonPanel.add(exitButton,BorderLayout.LINE_START);
     }
    
     /**
