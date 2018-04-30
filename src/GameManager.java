@@ -196,7 +196,7 @@ public class GameManager implements ActionListener {
             xCoordinate1 = xTemp;
             yCoordinate1 = yTemp;
         } else {
-            if (!armada.isCarrierExist()) {
+            if (!armada.isCarrierExists()) {
                 if(armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'A')){
                     label1.setText("PLACE YOUR BATTLESHIP");
                     label2.setText("BATTLESHIP: 4 BLOCKS");

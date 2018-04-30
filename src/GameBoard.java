@@ -172,6 +172,7 @@ public class GameBoard extends JPanel implements ActionListener {
         JLabel missLabel = new JLabel("MISS: WHITE");
         missLabel.setForeground(Color.WHITE);
         missLabel.setFont(font);
+        missLabel.setBorder(BorderFactory.createEmptyBorder(0,80,10,80));
         keyPanel.add(missLabel);
 
         noticeLabel = new JLabel("");
@@ -322,7 +323,7 @@ public class GameBoard extends JPanel implements ActionListener {
 
     private void setNotice(){
         Board armada;
-        String targetList = "targets destroyed ";
+        String targetList = "TARGETS DESTROYED ";
 
         if(turnCount % 2 == 1){
             armada = armada2;
@@ -330,22 +331,22 @@ public class GameBoard extends JPanel implements ActionListener {
             armada = armada1;
         }
 
-        if(armada.isCarrierDestroyed()){
+        if(!armada.isCarrierExists()){
             targetList += " A ";
         }
 
-        if(armada.isBattleShipDestroyed()){
+        if(!armada.isBattleshipExists()){
             targetList += " B ";
         }
 
-        if(armada.isCruiserDestroyed()){
+        if(!armada.isCruiserExists()){
             targetList += " C ";
         }
 
-        if(armada.isSubmarineDestroyed()){
+        if(!armada.isSubExists()){
             targetList += " S ";
         }
-        if (armada.isPatrolBoatDestroyed()){
+        if (!armada.isPatrolBoatExists()){
             targetList += " P ";
         }
         noticeLabel.setText(targetList);
