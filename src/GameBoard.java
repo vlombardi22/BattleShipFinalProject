@@ -66,6 +66,9 @@ public class GameBoard extends JPanel implements ActionListener {
         addContinueButton();
         
         add(southPanel,BorderLayout.SOUTH);
+
+        // Stop the soviet anthem
+        StartClass.music.killSound();
     }
     
      /**

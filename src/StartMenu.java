@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+
 public class StartMenu extends JPanel implements ActionListener{
     // Containers and components
     private Box centerButtonBox = Box.createVerticalBox();

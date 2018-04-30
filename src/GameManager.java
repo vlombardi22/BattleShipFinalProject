@@ -95,6 +95,7 @@ public class GameManager implements ActionListener {
         positionGrid = new JButton[10][10];
         Panel.setLayout(new GridBagLayout());
 
+
         // Create button grid
         for(int x = 0; x < 10;x++){
             for(int y = 0; y < 10; y++){
@@ -283,6 +284,9 @@ public class GameManager implements ActionListener {
                 
                 masterPanel.setVisible(false);
                 game.add(switchPanel);
+
+                // Stop the soviet anthem
+                Sound.music.killSound();
             }
         }
     }
