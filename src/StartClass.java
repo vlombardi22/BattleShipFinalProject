@@ -43,33 +43,8 @@ public class StartClass {
         frame.pack();
         frame.setVisible(true);
 
-        music();
+        Sound music = new Sound("sovietSong", true);
     }
-    
-public static void music() {
-    AudioPlayer MGP = AudioPlayer.player;
-    AudioStream BGM;
-    AudioData MD;
-
-    ContinuousAudioDataStream loop = null;
-
-    try
-    {
-        InputStream test = new FileInputStream("./res/sovietSong.wav");
-        BGM = new AudioStream(test);
-        AudioPlayer.player.start(BGM);
-    }
-    catch(FileNotFoundException e){
-        System.out.print(e.toString());
-    }
-    catch(IOException error)
-    {
-        System.out.print(error.toString());
-    }
-    MGP.start(loop);
-
-}
-
 
 
     public static JFrame getFrame(){
