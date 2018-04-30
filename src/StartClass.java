@@ -1,5 +1,10 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import sun.audio.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -37,8 +42,36 @@ public class StartClass {
 
         frame.pack();
         frame.setVisible(true);
+
+        music();
     }
     
+public static void music() {
+    AudioPlayer MGP = AudioPlayer.player;
+    AudioStream BGM;
+    AudioData MD;
+
+    ContinuousAudioDataStream loop = null;
+
+    try
+    {
+        InputStream test = new FileInputStream("./res/sovietSong.wav");
+        BGM = new AudioStream(test);
+        AudioPlayer.player.start(BGM);
+    }
+    catch(FileNotFoundException e){
+        System.out.print(e.toString());
+    }
+    catch(IOException error)
+    {
+        System.out.print(error.toString());
+    }
+    MGP.start(loop);
+
+}
+
+
+
     public static JFrame getFrame(){
         return frame;
     }
