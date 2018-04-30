@@ -14,8 +14,8 @@ import java.io.InputStream;
 
 public class GameBoard extends JPanel implements ActionListener {
     
-    public static Sound splash = new Sound("splash", false, false);
-    public static Sound boom = new Sound("boom", false, false);
+   // public static Sound splash = new Sound("splash", false, true);
+   // public static Sound boom = new Sound("boom", false, true);
 
     private Board armada1;
     private Board armada2;
@@ -316,12 +316,12 @@ public class GameBoard extends JPanel implements ActionListener {
                     }
                     if(armada.checkSpace(x,y)){
                         shootingGrid[y][x].setBackground(Color.RED);
-                        boom.startSound();
+                        Sound boom = new Sound("boom", false, true);
 
                     }
                     else {
                         shootingGrid[y][x].setBackground(Color.WHITE);
-                        splash.startSound();
+                        Sound splash = new Sound("splash", false, true);
 
                     }
                 }
