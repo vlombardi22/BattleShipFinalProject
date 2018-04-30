@@ -14,6 +14,9 @@ import java.io.InputStream;
 
 public class GameBoard extends JPanel implements ActionListener {
     
+    public static Sound splash = new Sound("splash", false, false);
+    public static Sound boom = new Sound("boom", false, false);
+
     private Board armada1;
     private Board armada2;
     private String name1;
@@ -67,8 +70,6 @@ public class GameBoard extends JPanel implements ActionListener {
         
         add(southPanel,BorderLayout.SOUTH);
 
-        // Stop the soviet anthem
-        StartClass.music.killSound();
     }
     
      /**
@@ -96,7 +97,6 @@ public class GameBoard extends JPanel implements ActionListener {
         labelPanel.add(opponentLabel, BorderLayout.LINE_END);
         
         // Creates label for opponent's board
-
         playerLabel = new JLabel("YOUR BOARD");
         playerLabel.setBorder(BorderFactory.createEmptyBorder(30,100,0,100));
         playerLabel.setFont(font);        
@@ -316,8 +316,13 @@ public class GameBoard extends JPanel implements ActionListener {
                     }
                     if(armada.checkSpace(x,y)){
                         shootingGrid[y][x].setBackground(Color.RED);
-                    }else{
+                        boom.startSound();
+
+                    }
+                    else {
                         shootingGrid[y][x].setBackground(Color.WHITE);
+                        splash.startSound();
+
                     }
                 }
             }

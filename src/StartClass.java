@@ -24,7 +24,7 @@ public class StartClass {
     private static JPanel rulesPanel;
     private static JPanel namePromptPanel;
 
-    public static Sound music = null;
+    public static Sound music;
     
     public static void startGame(){
         //Set up global frame
@@ -45,7 +45,7 @@ public class StartClass {
         frame.pack();
         frame.setVisible(true);
 
-        music = new Sound("sovietSong", true);
+        music = new Sound("sovietSong", true, true);
     }
 
 

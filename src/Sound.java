@@ -7,28 +7,29 @@ import java.io.InputStream;
 
 public class Sound {
 
-	protected AudioPlayer MGP = AudioPlayer.player;
-   	private AudioStream as = null;
-   	private AudioData MD = null;
-	private ContinuousAudioDataStream loop = null;
+	protected AudioPlayer ap = AudioPlayer.player;
+   	private AudioStream as;
+   	private AudioData ad;
+	private ContinuousAudioDataStream loop;
+	private InputStream test;
 
 	private String soundName;
 	private boolean loopAudio;
 
-	public static Sound music = new Sound("sovietSong", true);
-
-
-
-	public Sound(String soundName, boolean loopAudio){
+	public Sound(String soundName, boolean loopAudio, boolean start){
 		this.soundName = soundName;
 		this.loopAudio = loopAudio;
-		initSound();
+
+		initSound(start);
+
 	}
 
-	protected void initSound(){
-    	try {
-        	InputStream test = new FileInputStream("./res/" + this.soundName + ".wav");
+	protected void initSound(boolean start){
+   		
+   		try {
+        	test = new FileInputStream("./res/" + this.soundName + ".wav");
         	as = new AudioStream(test);
+        	if (start)
         	AudioPlayer.player.start(as);
     	}
     	
@@ -39,12 +40,19 @@ public class Sound {
     	catch(IOException error) {
     	    System.out.print(error.toString());
     	}
-    
-    	if(this.loopAudio) {
-    		MGP.start(loop);
-    	}
 
 	}
+
+	protected void startSound(){
+    	if (as != null) {
+       		AudioPlayer.player.start(as);
+    	} 
+    	else {
+    		System.out.print("unable to start sound");
+
+    	}
+	}
+
 
 	protected void killSound(){
     	if (as != null) {
@@ -54,6 +62,24 @@ public class Sound {
  		    System.out.print("unable to stop sound");
     	}
 
+    }
+
+    protected void setInputStream(){
+    	try {
+			InputStream test = new FileInputStream("./res/" + this.soundName + ".wav");
+        }
+        catch(FileNotFoundException e){
+            System.out.println("File not found");
+        }
+    }
+
+    protected void setAudioStream(){
+    	try {
+    		as = new AudioStream(test);
+    	}
+    	catch(IOException e){
+        	System.out.println("audio stream error");
+    	}
     }
 		
 }

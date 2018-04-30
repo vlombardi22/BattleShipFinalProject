@@ -286,7 +286,7 @@ public class GameManager implements ActionListener {
                 game.add(switchPanel);
 
                 // Stop the soviet anthem
-                Sound.music.killSound();
+                StartClass.music.killSound();
             }
         }
     }
