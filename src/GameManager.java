@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 public class GameManager implements ActionListener {
     
     private static JFrame game;
-    private JPanel masterPanel;
+    private JPanel placingPanel;
     private static JPanel gameBoardPanel;
     private static JPanel switchPanel;
     
@@ -48,8 +48,8 @@ public class GameManager implements ActionListener {
         
         // Set up main JFrame and main JPanel
         game = new JFrame();
-        masterPanel = new JPanel(new BorderLayout());
-        masterPanel.setBackground(Color.BLACK);
+        placingPanel = new JPanel(new BorderLayout());
+        placingPanel.setBackground(Color.BLACK);
         
         // Read from font file
         FontSetup myFont = new FontSetup();
@@ -61,7 +61,7 @@ public class GameManager implements ActionListener {
         // Add continue button
         addContinueButton();
         
-        game.add(masterPanel);
+        game.add(placingPanel);
         game.setUndecorated(true);
         game.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         game.setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -117,7 +117,7 @@ public class GameManager implements ActionListener {
         boardPanel.add(Panel,BorderLayout.NORTH);
         boardPanel.setBorder(BorderFactory.createEmptyBorder(120,100,100,100)); 
         boardPanel.setBackground(Color.BLACK);        
-        masterPanel.add(boardPanel,BorderLayout.LINE_START);
+        placingPanel.add(boardPanel,BorderLayout.LINE_START);
     }
     
     /**
@@ -150,7 +150,7 @@ public class GameManager implements ActionListener {
         boardPanel.add(Panel,BorderLayout.NORTH);
         boardPanel.setBorder(BorderFactory.createEmptyBorder(120,100,100,100)); 
         boardPanel.setBackground(Color.BLACK);        
-        masterPanel.add(boardPanel,BorderLayout.LINE_END);
+        placingPanel.add(boardPanel,BorderLayout.LINE_END);
     }
     
     /**
@@ -168,7 +168,7 @@ public class GameManager implements ActionListener {
         continueButton.setForeground(Color.RED);
         
         buttonPanel.add(continueButton,BorderLayout.LINE_END);
-        masterPanel.add(buttonPanel,BorderLayout.SOUTH);
+        placingPanel.add(buttonPanel,BorderLayout.SOUTH);
     }
 
     /**
@@ -281,7 +281,7 @@ public class GameManager implements ActionListener {
             }else if(!isPlayer1Turn && armada2.isPatrolBoatExists()){
                 gameBoardPanel = new GameBoard(player1,player2);
                 
-                masterPanel.setVisible(false);
+                placingPanel.setVisible(false);
                 game.add(switchPanel);
             }
         }

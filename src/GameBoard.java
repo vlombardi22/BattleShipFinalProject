@@ -23,7 +23,7 @@ public class GameBoard extends JPanel implements ActionListener {
     private JPanel southPanel; // Panel to contain key and continue button
     private JLabel playerLabel;
     private JLabel opponentLabel;
-	private JLabel noticeLabel;
+    private JLabel noticeLabel;
     
     private Font font; 
     private JButton continueButton = new JButton("CONTINUE");
