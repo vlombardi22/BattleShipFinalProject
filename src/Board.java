@@ -36,8 +36,11 @@ public class Board {
      * returns whether or not there is an aircraft carrier on the board
      * @return true if you placed the carrier
      */
-    public boolean isCarrierExist() {
-        return carrierExist;
+    public boolean isCarrierExists() {
+        if(carrierExist){
+            return !fleet[1].isSunk();
+        }
+        return false;
     }
 
     /**
@@ -45,7 +48,10 @@ public class Board {
      * @return true if you placed the battleship
      */
     public boolean isBattleshipExists() {
-        return battleshipExists;
+        if(battleshipExists){
+            return !fleet[0].isSunk();
+        }
+        return false;
     }
 
     /**
@@ -53,7 +59,10 @@ public class Board {
      * @return true if you placed the submarine
      */
     public boolean isSubExists() {
-        return subExists;
+        if(subExists){
+            return !fleet[2].isSunk();
+        }
+        return false;
     }
 
     /**
@@ -61,7 +70,10 @@ public class Board {
      * @return true if you placed the cruiser
      */
     public boolean isCruiserExists() {
-        return cruiserExists;
+        if(cruiserExists){
+            return !fleet[3].isSunk();
+        }
+        return false;
     }
 
     /**
@@ -69,27 +81,10 @@ public class Board {
      * @return true if you placed the patrol boat
      */
     public boolean isPatrolBoatExists() {
-        return patrolBoatExists;
-    }
-
-    public boolean isBattleShipDestroyed(){
-        return fleet[0].isSunk();
-    }
-
-    public boolean isCarrierDestroyed(){
-        return fleet[1].isSunk();
-    }
-
-    public boolean isSubmarineDestroyed(){
-        return fleet[2].isSunk();
-    }
-
-    public boolean isCruiserDestroyed(){
-        return fleet[3].isSunk();
-    }
-
-    public boolean isPatrolBoatDestroyed(){
-        return fleet[4].isSunk();
+        if(patrolBoatExists){
+            return !fleet[4].isSunk();
+        }
+        return false;
     }
 
     /**
