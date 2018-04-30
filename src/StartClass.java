@@ -23,6 +23,8 @@ public class StartClass {
     private static JPanel startMenuPanel;
     private static JPanel rulesPanel;
     private static JPanel namePromptPanel;
+
+    public static Sound music;
     
     public static void startGame(){
         //Set up global frame
@@ -43,33 +45,8 @@ public class StartClass {
         frame.pack();
         frame.setVisible(true);
 
-        music();
+        music = new Sound("sovietSong", true, true);
     }
-    
-public static void music() {
-    AudioPlayer MGP = AudioPlayer.player;
-    AudioStream BGM;
-    AudioData MD;
-
-    ContinuousAudioDataStream loop = null;
-
-    try
-    {
-        InputStream test = new FileInputStream("./res/sovietSong.wav");
-        BGM = new AudioStream(test);
-        AudioPlayer.player.start(BGM);
-    }
-    catch(FileNotFoundException e){
-        System.out.print(e.toString());
-    }
-    catch(IOException error)
-    {
-        System.out.print(error.toString());
-    }
-    MGP.start(loop);
-
-}
-
 
 
     public static JFrame getFrame(){

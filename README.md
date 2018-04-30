@@ -2,4 +2,7 @@
 
 Implementation of battleship using java swing.
 
-Use makefile to build and run. Type {make}
+### To run via terminal
+    - clone repo
+    - cd src
+    - type 'make'

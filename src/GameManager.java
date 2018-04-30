@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 
 public class GameManager implements ActionListener {
     
+    public static Sound redAlert;
+
     private static JFrame game;
     private JPanel placingPanel;
     private static JPanel gameBoardPanel;
@@ -94,6 +96,7 @@ public class GameManager implements ActionListener {
         JPanel Panel = new JPanel();
         positionGrid = new JButton[10][10];
         Panel.setLayout(new GridBagLayout());
+
 
         // Create button grid
         for(int x = 0; x < 10;x++){
@@ -283,6 +286,12 @@ public class GameManager implements ActionListener {
                 
                 placingPanel.setVisible(false);
                 game.add(switchPanel);
+
+                // stop the soviet anthem
+                StartClass.music.killSound();
+
+                // start soviet march theme
+                redAlert = new Sound("CCRedAlert3Theme", true, true); 
             }
         }
     }
