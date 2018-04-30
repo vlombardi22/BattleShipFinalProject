@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 
 public class GameManager implements ActionListener {
     
+    public static Sound redAlert;
+
     private static JFrame game;
     private JPanel masterPanel;
     private static JPanel gameBoardPanel;
@@ -285,8 +287,11 @@ public class GameManager implements ActionListener {
                 masterPanel.setVisible(false);
                 game.add(switchPanel);
 
-                // Stop the soviet anthem
+                // stop the soviet anthem
                 StartClass.music.killSound();
+
+                // start soviet march theme
+                redAlert = new Sound("CCRedAlert3Theme", true, true); 
             }
         }
     }
