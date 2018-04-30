@@ -25,7 +25,7 @@ public class GameBoard extends JPanel implements ActionListener {
     private JLabel opponentLabel;
 	private JLabel noticeLabel;
     
-    Font font; 
+    private Font font; 
     private JButton continueButton = new JButton("CONTINUE");
     private int turnCount;
     private boolean finishTurn = false;

@@ -8,8 +8,8 @@ public class CongratsScreen extends JPanel implements ActionListener{
     private JPanel buttonPanel;
     private JButton menuButton = new JButton("MENU");
     private JButton exitButton = new JButton("EXIT");
-    Font font;
-    String winnerName;
+    private Font font;
+    private String winnerName;
     
     public CongratsScreen(String name){ 
         winnerName = name;

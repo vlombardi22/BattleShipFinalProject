@@ -123,7 +123,7 @@ public class GameManager implements ActionListener {
     /**
      * Creates the message on the right side of the screen
      */
-    public void createMessage(){
+    private void createMessage(){
         JPanel boardPanel = new JPanel(new BorderLayout());
         JPanel Panel = new JPanel();
         
