@@ -6,7 +6,6 @@ import java.io.InputStream;
 
 
 public class Sound {
-
 	protected AudioPlayer ap = AudioPlayer.player;
   private AudioStream as;
   private AudioData ad;
@@ -76,6 +75,10 @@ public class Sound {
    	catch(IOException e){
       System.out.println("audio stream error");
    	}
+  }
+
+  protected void reset(){
+  	this.initSound(false);
   }
 		
 }
