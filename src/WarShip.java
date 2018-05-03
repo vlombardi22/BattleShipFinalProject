@@ -1,6 +1,11 @@
 /**
  * this class stores an array of tile objects and represents a single ship on the game board. The size and type if this
  * ship is variable. This class also contains a method that checks whether or not the ship has been sunk.
+ *
+ * CPSC 224-01, Spring 2018
+ * Final Project
+ * @author Vincent Lombardi
+ * @version V1.0 5/3/2018
  */
 public class WarShip {
     private Tile[] hull; // array of tile objects that make up this warship

@@ -1,5 +1,10 @@
 /**
  * This class displays the game screen that allows a player to attack
+ *
+ * CPSC 224-01, Spring 2018
+ * Final Project
+ * @author Vincent Lombardi
+ * @version V1.0 5/3/2018
  */
 
 import javax.swing.*;
@@ -13,29 +18,25 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class GameBoard extends JPanel implements ActionListener {
-    
-   // public static Sound splash = new Sound("splash", false, true);
-   // public static Sound boom = new Sound("boom", false, true);
 
-    private Board armada1;
-    private Board armada2;
-    private String name1;
-    private String name2;
-    private JButton[][] positionGrid;
-    private JButton[][] shootingGrid;
+    private Board armada1; // board object for player 1
+    private Board armada2; // board object for player 2
+    private String name1;  // player1's name
+    private String name2;  // player2's name
+    private JButton[][] positionGrid; // grid for displaying current players ships
+    private JButton[][] shootingGrid; // grid for displaying enemy ships
     private JPanel southPanel; // Panel to contain key and continue button
-    private JLabel playerLabel;
-    private JLabel opponentLabel;
-	private JLabel noticeLabel;
-    
-    Font font; 
-    private JButton continueButton = new JButton("CONTINUE");
-    private int turnCount;
-    private boolean finishTurn = false;
+    private JLabel playerLabel; // label for players board
+    private JLabel opponentLabel; // label for enemy board
+	private JLabel noticeLabel;  // label for displaying destroyed ships
+    Font font;
+    private JButton continueButton = new JButton("CONTINUE"); // continue button
+    private int turnCount;       // counter for turns
+    private boolean finishTurn = false; // boolean for if the turn is finished
 
 
      /**
-     * GameBoard constructor
+     * GameBoard constructor initializes 2 ten by ten JButton grids
      */
     public GameBoard(Player player1, Player player2){
         // Set up main JFrame and main JPanel
@@ -75,14 +76,14 @@ public class GameBoard extends JPanel implements ActionListener {
      /**
      * Adds labels for each board
      */
-    private void addLabels(){
+    private void addLabels() {
         // IMPORTANT!!! The string below will be replaced by the opponent's name
         String name = null;
-                if(turnCount%2==0) {
-                    name = name1;
-                } else if(turnCount%2==1){
-                    name = name2;
-                }
+        if(turnCount%2==0) {
+            name = name1;
+        } else if(turnCount%2==1) {
+            name = name2;
+        }
         
         String opponent = name + "'S";
         
@@ -110,12 +111,12 @@ public class GameBoard extends JPanel implements ActionListener {
      * Creates a grid 
      * @param bound String - determines which side the grid will go on
      */
-    private void createBoard(String bound){
+    private void createBoard(String bound) {
         // Set up encompassing panels, outerPanel is BorderLayout by default
         JPanel outerPanel = new JPanel();
         JPanel innerPanel = new JPanel();
         JButton[][] tempGrid;
-        if(bound.equals(BorderLayout.LINE_START)){
+        if (bound.equals(BorderLayout.LINE_START)) {
             positionGrid = new JButton[10][10];
             tempGrid = positionGrid;
         } else {
@@ -126,8 +127,8 @@ public class GameBoard extends JPanel implements ActionListener {
         innerPanel.setLayout(new GridBagLayout());
 
         // Create button grid
-        for(int x = 0; x < 10;x++){
-            for(int y = 0; y < 10; y++){
+        for (int x = 0; x < 10;x++) {
+            for (int y = 0; y < 10; y++) {
                 GridBagConstraints constraints = new GridBagConstraints();
                 tempGrid[y][x] = new JButton("("+x+","+y+")");
                 tempGrid[y][x].setBackground(Color.BLUE);
@@ -136,7 +137,7 @@ public class GameBoard extends JPanel implements ActionListener {
                 constraints.gridy = y;
                 constraints.weightx = 1;
                 constraints.weighty = 1;
-                if(!bound.equals(BorderLayout.LINE_START)){
+                if (!bound.equals(BorderLayout.LINE_START)) { // adds the action listener to left grid
                     tempGrid[y][x].addActionListener(this);
                 }
                 innerPanel.add(tempGrid[y][x], constraints);
@@ -153,7 +154,7 @@ public class GameBoard extends JPanel implements ActionListener {
         
         // bound is either BorderLayout.LINE_START or BorderLayout.LINE_END
         add(outerPanel,bound);
-        if(bound.equals(BorderLayout.LINE_START)) {
+        if (bound.equals(BorderLayout.LINE_START)) { // colors ships on position grid
             colorPositionGrid();
         }
     }
@@ -203,21 +204,25 @@ public class GameBoard extends JPanel implements ActionListener {
         southPanel.add(continueButton,BorderLayout.LINE_END);
     }
 
+    /**
+     * this method takes in a click and then checks if the player is shooting or switching turns
+     * @param e the button that was pressed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {        
         assert(turnCount <= 200);
-        String name;
-        if(turnCount%2==1) {
+        String name; // player name
+        if (turnCount%2==1) {
             name = name1;
         } else {
             name = name2;
         }
 		
-        if(e.getSource() == continueButton && finishTurn) {// Continue button action must be changed later
-            if(armada1.gameOver() || armada2.gameOver()){            
+        if (e.getSource() == continueButton && finishTurn) { // Continue button action must be changed later
+            if (armada1.gameOver() || armada2.gameOver()) {  // checks for a game over
                 setVisible(false);
                 GameManager.getFrame().add(new CongratsScreen(name)); 
-            } else {            
+            } else { // switches turns
                 turnCount++;
                 clearPositionGrid();
                 clearShootingGrid();
@@ -225,7 +230,7 @@ public class GameBoard extends JPanel implements ActionListener {
                 colorShootingGrid();
                 finishTurn = false;
                 setNotice();
-                if (turnCount%2==1) {
+                if (turnCount%2==1) { // switches player names
                     name = name2;
                 } else {
                     name = name1;
@@ -235,11 +240,14 @@ public class GameBoard extends JPanel implements ActionListener {
                 GameManager.getSwitchScreen().setVisible(true);     
                 opponentLabel.setText(name + "'S BOARD");
             }
-        }else if(!finishTurn) {
+        }else if(!finishTurn) { // called if current player is attacking
             AttackListener(e);
         }
     }
 
+    /**
+     * clears the shooting grid to be blue
+     */
     private void clearShootingGrid(){
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
@@ -248,7 +256,9 @@ public class GameBoard extends JPanel implements ActionListener {
         }
     }
 
-
+    /**
+     * clears the Position grid to be blue
+     */
     private void clearPositionGrid(){
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
@@ -258,12 +268,14 @@ public class GameBoard extends JPanel implements ActionListener {
     }
 
 
-    private void colorPositionGrid(){
+    /**
+     * displays current players ships as grey spaces and damaged segments as red
+     */
+    private void colorPositionGrid() {
         Board armada;
-        if(turnCount % 2 == 1){
+        if (turnCount % 2 == 1) { // set board to current player
             armada = armada1;
-
-        }else{
+        } else {
             armada = armada2;
         }
         armada.displayPlayerBoard();
@@ -271,55 +283,61 @@ public class GameBoard extends JPanel implements ActionListener {
 
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
-                if(armada.checkSpace(x,y)){
+                if (armada.checkSpace(x,y)) { // checks if there is a damaged ship
                     positionGrid[y][x].setBackground(Color.RED);
-                } else if (armada.checkShipSpace(y,x)) {
+                } else if (armada.checkShipSpace(y,x)) { // checks if there is an undamaged ship
                     positionGrid[y][x].setBackground(Color.gray);
                 }
             }
         }
     }
 
-    private void colorShootingGrid(){
-
+    /**
+     * this method simply displays the shooting grid. It recolors hit tiles red or white depending on whether they
+     * have been hit or not.
+     */
+    private void colorShootingGrid() {
         Board armada;
-        if(turnCount % 2 == 1){
+        if (turnCount % 2 == 1) { // sets board to current player
             armada = armada2;
-        }else{
+        } else {
             armada = armada1;
         }
 
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
-                if(armada.checkSpace(x,y)){
+                if (armada.checkSpace(x,y)) { // turns damaged ship spaces red
                     shootingGrid[y][x].setBackground(Color.RED);
-                } else if (armada.checkHit(x,y)) {
+                } else if (armada.checkHit(x,y)) { // turns spaces that are not part of a ship but have been shot at white.
                     shootingGrid[y][x].setBackground(Color.WHITE);
                 }
             }
         }
     }
 
+    /**
+     * allows users to attack by taking in the coordinates of the button and calling board's shoot method.
+     * @param e the current button
+     */
     public void AttackListener(ActionEvent e) {
         Board armada;
-        if(turnCount % 2 == 1){
+        if (turnCount % 2 == 1) { // sets board to current player
             armada = armada2;
-        }else{
+        } else {
             armada = armada1;
         }
 
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
-                if(e.getSource() == shootingGrid[y][x]){
-                    if(armada.shoot(x,y)){
+                if (e.getSource() == shootingGrid[y][x]) {
+                    if (armada.shoot(x,y)) { // sets finishTurn to true if target has not been hit yet
                         finishTurn = true;
                     }
-                    if(armada.checkSpace(x,y)){
+                    if (armada.checkSpace(x,y)) { // displays current target as red if it hit a ship
                         shootingGrid[y][x].setBackground(Color.RED);
                         Sound boom = new Sound("boom", false, true);
 
-                    }
-                    else {
+                    } else { // displays targeted space as white if it is a miss
                         shootingGrid[y][x].setBackground(Color.WHITE);
                         Sound splash = new Sound("splash", false, true);
 
@@ -329,35 +347,38 @@ public class GameBoard extends JPanel implements ActionListener {
         }
     }
 
-    private void setNotice(){
+    /**
+     * This method displays what ships the current player has destroyed
+     */
+    private void setNotice() {
         Board armada;
         String targetList = "TARGETS DESTROYED ";
 
-        if(turnCount % 2 == 1){
+        if (turnCount % 2 == 1) { // sets board to current player
             armada = armada2;
-        }else{
+        } else {
             armada = armada1;
         }
 
-        if(!armada.isCarrierExists()){
+        if (!armada.isCarrierExists()) { // displays A if aircraftCarrier is sunk
             targetList += " A ";
         }
 
-        if(!armada.isBattleshipExists()){
+        if (!armada.isBattleshipExists()) { // displays B if the Battleship is sunk
             targetList += " B ";
         }
 
-        if(!armada.isCruiserExists()){
+        if (!armada.isCruiserExists()) { // displays C if the Cruiser is sunk
             targetList += " C ";
         }
 
-        if(!armada.isSubExists()){
+        if (!armada.isSubExists()) { // displays S if the sub is sunk
             targetList += " S ";
         }
-        if (!armada.isPatrolBoatExists()){
+        if (!armada.isPatrolBoatExists()) { // displays P if the patrolboat is sunk
             targetList += " P ";
         }
-        noticeLabel.setText(targetList);
+        noticeLabel.setText(targetList); // displays targetList
 
     }
 }
