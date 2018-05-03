@@ -11,11 +11,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
 
 public class GameBoard extends JPanel implements ActionListener {
 
@@ -26,25 +21,16 @@ public class GameBoard extends JPanel implements ActionListener {
     private JButton[][] positionGrid; // grid for displaying current players ships
     private JButton[][] shootingGrid; // grid for displaying enemy ships
     private JPanel southPanel; // Panel to contain key and continue button
-<<<<<<< HEAD
-    private JLabel playerLabel;
-    private JLabel opponentLabel;
-    private JLabel noticeLabel;
-    
-    private Font font; 
-    private JButton continueButton = new JButton("CONTINUE");
-    private int turnCount;
-    private boolean finishTurn = false;
-=======
-    private JLabel playerLabel; // label for players board
-    private JLabel opponentLabel; // label for enemy board
-	private JLabel noticeLabel;  // label for displaying destroyed ships
-    Font font;
-    private JButton continueButton = new JButton("CONTINUE"); // continue button
-    private int turnCount;       // counter for turns
-    private boolean finishTurn = false; // boolean for if the turn is finished
->>>>>>> 3b902b94232530c87069ac60448577f35c48acb9
 
+    private JLabel playerLabel; // Displays player's name
+    private JLabel opponentLabel; // Displays opponent's name
+    private JLabel noticeLabel; // Displays destroyed targets
+    
+    private Font font; // Object to hold font
+    
+    private JButton continueButton = new JButton("CONTINUE"); // Continue button
+    private int turnCount; // Keeps track of how many turns have passed
+    private boolean finishTurn = false; // Keeps track if a turn is 
 
      /**
      * GameBoard constructor initializes 2 ten by ten JButton grids

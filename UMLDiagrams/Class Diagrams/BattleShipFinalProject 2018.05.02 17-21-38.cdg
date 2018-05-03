@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<ClassDiagram name="BattleShipFinalProject">
+  <ClassDiagramComponents>
+    <Class name="BattleShip" package="" visibility="public" xPosition="981.0" yPosition="2.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="main" returnType="void" visibility="public" isStatic="true">
+          <Argument type="String[]" name="args"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Board" package="" visibility="public" xPosition="1153.0" yPosition="1041.0">
+      <Fields>
+        <Field name="board" type="Tile[][]" visibility="private"/>
+        <Field name="fleet" type="WarShip[]" visibility="private"/>
+        <Field name="name" type="String" visibility="private"/>
+        <Field name="carrierExist" type="boolean" visibility="private"/>
+        <Field name="battleshipExists" type="boolean" visibility="private"/>
+        <Field name="subExists" type="boolean" visibility="private"/>
+        <Field name="cruiserExists" type="boolean" visibility="private"/>
+        <Field name="patrolBoatExists" type="boolean" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="isCarrierExists" returnType="boolean" visibility="public"/>
+        <Method name="isBattleshipExists" returnType="boolean" visibility="public"/>
+        <Method name="isSubExists" returnType="boolean" visibility="public"/>
+        <Method name="isCruiserExists" returnType="boolean" visibility="public"/>
+        <Method name="isPatrolBoatExists" returnType="boolean" visibility="public"/>
+        <Method name="displayEnemyBoard" returnType="void" visibility="public"/>
+        <Method name="displayPlayerBoard" returnType="void" visibility="public"/>
+        <Method name="shoot" returnType="boolean" visibility="public">
+          <Argument type="int" name="x"/>
+          <Argument type="int" name="y"/>
+        </Method>
+        <Method name="checkSpace" returnType="boolean" visibility="public">
+          <Argument type="int" name="x"/>
+          <Argument type="int" name="y"/>
+        </Method>
+        <Method name="checkHit" returnType="boolean" visibility="public">
+          <Argument type="int" name="x"/>
+          <Argument type="int" name="y"/>
+        </Method>
+        <Method name="gameOver" returnType="boolean" visibility="public"/>
+        <Method name="testConfig1" returnType="void" visibility="public"/>
+        <Method name="testConfig2" returnType="void" visibility="public"/>
+        <Method name="apocalypse" returnType="void" visibility="public"/>
+        <Method name="placeWarship" returnType="boolean" visibility="public">
+          <Argument type="int" name="x1Temp"/>
+          <Argument type="int" name="y1Temp"/>
+          <Argument type="int" name="x2Temp"/>
+          <Argument type="int" name="y2Temp"/>
+          <Argument type="char" name="shipType"/>
+        </Method>
+        <Method name="findShipIndex" returnType="int" visibility="private">
+          <Argument type="char" name="shipType"/>
+        </Method>
+        <Method name="findShipSize" returnType="int" visibility="private">
+          <Argument type="char" name="shipType"/>
+        </Method>
+        <Method name="setShipExists" returnType="void" visibility="private">
+          <Argument type="char" name="shipType"/>
+        </Method>
+        <Method name="checkShipSpace" returnType="boolean" visibility="public">
+          <Argument type="int" name="x"/>
+          <Argument type="int" name="y"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="CongratsScreen" package="" visibility="public" xPosition="524.0" yPosition="2074.0">
+      <Fields>
+        <Field name="buttonPanel" type="JPanel" visibility="private"/>
+        <Field name="menuButton" type="JButton" visibility="private"/>
+        <Field name="exitButton" type="JButton" visibility="private"/>
+        <Field name="font" type="Font" visibility="private"/>
+        <Field name="winnerName" type="String" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="name"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="addComponents" returnType="void" visibility="private"/>
+        <Method name="addText" returnType="void" visibility="private"/>
+        <Method name="addMenuButton" returnType="void" visibility="private"/>
+        <Method name="addExitButton" returnType="void" visibility="private"/>
+        <Method name="actionPerformed" returnType="void" visibility="public">
+          <Argument type="ActionEvent" name="e"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="FontSetup" package="" visibility="public" xPosition="1302.0" yPosition="160.0">
+      <Fields/>
+      <Constructors/>
+      <Methods>
+        <Method name="readFontFile" returnType="Font" visibility="protected"/>
+      </Methods>
+    </Class>
+    <Class name="GameBoard" package="" visibility="public" xPosition="1272.0" yPosition="1817.0">
+      <Fields>
+        <Field name="armada1" type="Board" visibility="private"/>
+        <Field name="armada2" type="Board" visibility="private"/>
+        <Field name="name1" type="String" visibility="private"/>
+        <Field name="name2" type="String" visibility="private"/>
+        <Field name="positionGrid" type="JButton[][]" visibility="private"/>
+        <Field name="shootingGrid" type="JButton[][]" visibility="private"/>
+        <Field name="southPanel" type="JPanel" visibility="private"/>
+        <Field name="playerLabel" type="JLabel" visibility="private"/>
+        <Field name="opponentLabel" type="JLabel" visibility="private"/>
+        <Field name="noticeLabel" type="JLabel" visibility="private"/>
+        <Field name="font" type="Font" visibility="private"/>
+        <Field name="continueButton" type="JButton" visibility="private"/>
+        <Field name="turnCount" type="int" visibility="private"/>
+        <Field name="finishTurn" type="boolean" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Player" name="player1"/>
+          <Argument type="Player" name="player2"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="addLabels" returnType="void" visibility="private"/>
+        <Method name="createBoard" returnType="void" visibility="private">
+          <Argument type="String" name="bound"/>
+        </Method>
+        <Method name="addKey" returnType="void" visibility="private"/>
+        <Method name="addContinueButton" returnType="void" visibility="private"/>
+        <Method name="actionPerformed" returnType="void" visibility="public">
+          <Argument type="ActionEvent" name="e"/>
+        </Method>
+        <Method name="clearShootingGrid" returnType="void" visibility="private"/>
+        <Method name="clearPositionGrid" returnType="void" visibility="private"/>
+        <Method name="colorPositionGrid" returnType="void" visibility="private"/>
+        <Method name="colorShootingGrid" returnType="void" visibility="private"/>
+        <Method name="AttackListener" returnType="void" visibility="public">
+          <Argument type="ActionEvent" name="e"/>
+        </Method>
+        <Method name="setNotice" returnType="void" visibility="private"/>
+      </Methods>
+    </Class>
+    <Class name="GameManager" package="" visibility="public" xPosition="640.0" yPosition="1003.0">
+      <Fields>
+        <Field name="redAlert" type="Sound" visibility="public" isStatic="true"/>
+        <Field name="game" type="JFrame" visibility="private" isStatic="true"/>
+        <Field name="placingPanel" type="JPanel" visibility="private"/>
+        <Field name="gameBoardPanel" type="JPanel" visibility="private" isStatic="true"/>
+        <Field name="switchPanel" type="JPanel" visibility="private" isStatic="true"/>
+        <Field name="player1" type="Player" visibility="private"/>
+        <Field name="player2" type="Player" visibility="private"/>
+        <Field name="armada1" type="Board" visibility="private"/>
+        <Field name="armada2" type="Board" visibility="private"/>
+        <Field name="armada" type="Board" visibility="private"/>
+        <Field name="positionGrid" type="JButton[][]" visibility="private"/>
+        <Field name="xCoordinate1" type="int" visibility="private"/>
+        <Field name="yCoordinate1" type="int" visibility="private"/>
+        <Field name="font" type="Font" visibility="private"/>
+        <Field name="label1" type="JLabel" visibility="private"/>
+        <Field name="label2" type="JLabel" visibility="private"/>
+        <Field name="label3" type="JLabel" visibility="private"/>
+        <Field name="continueButton" type="JButton" visibility="private" isFinal="true"/>
+        <Field name="isPlayer1Turn" type="Boolean" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="P1"/>
+          <Argument type="String" name="P2"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="playerSetup" returnType="void" visibility="private">
+          <Argument type="String" name="P1"/>
+          <Argument type="String" name="P2"/>
+        </Method>
+        <Method name="createBoard" returnType="void" visibility="private"/>
+        <Method name="createMessage" returnType="void" visibility="private"/>
+        <Method name="addContinueButton" returnType="void" visibility="private"/>
+        <Method name="playerDeploymentListener" returnType="void" visibility="public">
+          <Argument type="ActionEvent" name="e"/>
+        </Method>
+        <Method name="clearPositionGrid" returnType="void" visibility="private"/>
+        <Method name="getFrame" returnType="JFrame" visibility="public" isStatic="true"/>
+        <Method name="getSwitchScreen" returnType="JPanel" visibility="public" isStatic="true"/>
+        <Method name="getGameBoard" returnType="JPanel" visibility="public" isStatic="true"/>
+        <Method name="actionPerformed" returnType="void" visibility="public">
+          <Argument type="ActionEvent" name="e"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="NamePrompt" package="" visibility="public" xPosition="1266.0" yPosition="495.0">
+      <Fields>
+        <Field name="centerBox" type="Box" visibility="private"/>
+        <Field name="southButtonPanel" type="JPanel" visibility="private"/>
+        <Field name="continueButton" type="JButton" visibility="private"/>
+        <Field name="exitButton" type="JButton" visibility="private"/>
+        <Field name="font" type="Font" visibility="private"/>
+        <Field name="field1" type="JTextField" visibility="private"/>
+        <Field name="field2" type="JTextField" visibility="private"/>
+        <Field name="noNameLabel" type="JLabel" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="addComponents" returnType="void" visibility="private"/>
+        <Method name="addNamePrompts" returnType="void" visibility="private"/>
+        <Method name="addPrompt1" returnType="void" visibility="private"/>
+        <Method name="addPrompt2" returnType="void" visibility="private"/>
+        <Method name="addContinueButton" returnType="void" visibility="private"/>
+        <Method name="addExitButton" returnType="void" visibility="private"/>
+        <Method name="actionPerformed" returnType="void" visibility="public">
+          <Argument type="ActionEvent" name="e"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Player" package="" visibility="public" xPosition="679.0" yPosition="1779.0">
+      <Fields>
+        <Field name="name" type="String" visibility="private"/>
+        <Field name="armada" type="Board" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="getName" returnType="String" visibility="public"/>
+        <Method name="setName" returnType="void" visibility="public">
+          <Argument type="String" name="name"/>
+        </Method>
+        <Method name="getArmada" returnType="Board" visibility="public"/>
+        <Method name="setArmada" returnType="void" visibility="public">
+          <Argument type="Board" name="armada"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Rules" package="" visibility="public" xPosition="667.0" yPosition="495.0">
+      <Fields>
+        <Field name="buttonPanel" type="JPanel" visibility="private"/>
+        <Field name="returnButton" type="JButton" visibility="private"/>
+        <Field name="exitButton" type="JButton" visibility="private"/>
+        <Field name="font" type="Font" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="addComponents" returnType="void" visibility="private"/>
+        <Method name="addTitle" returnType="void" visibility="private"/>
+        <Method name="addRulesText" returnType="void" visibility="private"/>
+        <Method name="addReturnButton" returnType="void" visibility="private"/>
+        <Method name="addExitButton" returnType="void" visibility="private"/>
+        <Method name="actionPerformed" returnType="void" visibility="public">
+          <Argument type="ActionEvent" name="e"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Sound" package="" visibility="public" xPosition="257.0" yPosition="122.0">
+      <Fields>
+        <Field name="ap" type="AudioPlayer" visibility="protected"/>
+        <Field name="as" type="AudioStream" visibility="private"/>
+        <Field name="ad" type="AudioData" visibility="private"/>
+        <Field name="loop" type="ContinuousAudioDataStream" visibility="private"/>
+        <Field name="test" type="InputStream" visibility="private"/>
+        <Field name="soundName" type="String" visibility="private"/>
+        <Field name="loopAudio" type="boolean" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="String" name="soundName"/>
+          <Argument type="boolean" name="loopAudio"/>
+          <Argument type="boolean" name="start"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="initSound" returnType="void" visibility="protected">
+          <Argument type="boolean" name="start"/>
+        </Method>
+        <Method name="startSound" returnType="void" visibility="protected"/>
+        <Method name="killSound" returnType="void" visibility="protected"/>
+        <Method name="setInputStream" returnType="void" visibility="protected"/>
+        <Method name="setAudioStream" returnType="void" visibility="protected"/>
+        <Method name="reset" returnType="void" visibility="protected"/>
+      </Methods>
+    </Class>
+    <Class name="StartClass" package="" visibility="public" xPosition="972.0" yPosition="160.0">
+      <Fields>
+        <Field name="frame" type="JFrame" visibility="private" isStatic="true"/>
+        <Field name="startMenuPanel" type="JPanel" visibility="private" isStatic="true"/>
+        <Field name="rulesPanel" type="JPanel" visibility="private" isStatic="true"/>
+        <Field name="namePromptPanel" type="JPanel" visibility="private" isStatic="true"/>
+        <Field name="music" type="Sound" visibility="public" isStatic="true"/>
+      </Fields>
+      <Constructors/>
+      <Methods>
+        <Method name="startGame" returnType="void" visibility="public" isStatic="true"/>
+        <Method name="getFrame" returnType="JFrame" visibility="public" isStatic="true"/>
+        <Method name="getStartMenu" returnType="JPanel" visibility="public" isStatic="true"/>
+        <Method name="getRules" returnType="JPanel" visibility="public" isStatic="true"/>
+        <Method name="getNamePrompt" returnType="JPanel" visibility="public" isStatic="true"/>
+      </Methods>
+    </Class>
+    <Class name="StartMenu" package="" visibility="public" xPosition="962.0" yPosition="495.0">
+      <Fields>
+        <Field name="centerButtonBox" type="Box" visibility="private"/>
+        <Field name="southButtonPanel" type="JPanel" visibility="private"/>
+        <Field name="startButton" type="JButton" visibility="private"/>
+        <Field name="rulesButton" type="JButton" visibility="private"/>
+        <Field name="exitButton" type="JButton" visibility="private"/>
+        <Field name="font" type="Font" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="addComponents" returnType="void" visibility="private"/>
+        <Method name="addTitle" returnType="void" visibility="private"/>
+        <Method name="addStartButton" returnType="void" visibility="private"/>
+        <Method name="addRulesButton" returnType="void" visibility="private"/>
+        <Method name="addExitButton" returnType="void" visibility="private"/>
+        <Method name="actionPerformed" returnType="void" visibility="public">
+          <Argument type="ActionEvent" name="e"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="SwitchScreen" package="" visibility="public" xPosition="801.0" yPosition="2074.0">
+      <Fields>
+        <Field name="buttonPanel" type="JPanel" visibility="private"/>
+        <Field name="continueButton" type="JButton" visibility="private"/>
+        <Field name="exitButton" type="JButton" visibility="private"/>
+        <Field name="font" type="Font" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="addComponents" returnType="void" visibility="private"/>
+        <Method name="addText" returnType="void" visibility="private"/>
+        <Method name="addContinueButton" returnType="void" visibility="private"/>
+        <Method name="addExitButton" returnType="void" visibility="private"/>
+        <Method name="actionPerformed" returnType="void" visibility="public">
+          <Argument type="ActionEvent" name="e"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="Tile" package="" visibility="public" xPosition="1756.0" yPosition="1300.0">
+      <Fields>
+        <Field name="isShip" type="boolean" visibility="private"/>
+        <Field name="isHit" type="boolean" visibility="private"/>
+        <Field name="shipType" type="char" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public"/>
+      </Constructors>
+      <Methods>
+        <Method name="setShipType" returnType="void" visibility="public">
+          <Argument type="char" name="shipType"/>
+        </Method>
+        <Method name="getShipType" returnType="char" visibility="public"/>
+        <Method name="getShip" returnType="boolean" visibility="public"/>
+        <Method name="setShip" returnType="void" visibility="public">
+          <Argument type="boolean" name="ship"/>
+        </Method>
+        <Method name="getHit" returnType="boolean" visibility="public"/>
+        <Method name="setHit" returnType="void" visibility="public">
+          <Argument type="boolean" name="hit"/>
+        </Method>
+      </Methods>
+    </Class>
+    <Class name="WarShip" package="" visibility="public" xPosition="1756.0" yPosition="1041.0">
+      <Fields>
+        <Field name="hull" type="Tile[]" visibility="private"/>
+      </Fields>
+      <Constructors>
+        <Constructor visibility="public">
+          <Argument type="Tile[]" name="coordinates"/>
+          <Argument type="char" name="shipType"/>
+        </Constructor>
+      </Constructors>
+      <Methods>
+        <Method name="isSunk" returnType="boolean" visibility="public"/>
+        <Method name="scuttle" returnType="void" visibility="public"/>
+      </Methods>
+    </Class>
+  </ClassDiagramComponents>
+  <ClassDiagramRelations>
+    <HasRelation name="armada1" source="GameManager" target="Board" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="armada2" source="GameManager" target="Board" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="player1" source="GameManager" target="Player" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="armada2" source="GameBoard" target="Board" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="player2" source="GameManager" target="Player" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="armada1" source="GameBoard" target="Board" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="armada" source="Player" target="Board" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="music" source="StartClass" target="Sound" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="armada" source="GameManager" target="Board" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <UseRelation source="Player" target="Board" sourceCardinality="1..1" targetCardinality="1..1"/>
+    <HasRelation name="redAlert" source="GameManager" target="Sound" type="Aggregation" sourceCardinality="1..1" targetCardinality="1..1"/>
+  </ClassDiagramRelations>
+</ClassDiagram>

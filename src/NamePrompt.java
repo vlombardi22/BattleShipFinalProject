@@ -1,22 +1,34 @@
+/**
+ * This class displays the name prompt screen
+ *
+ * CPSC 224-01, Spring 2018
+ * Final Project
+ * @author Vincent Lombardi, Luke Hartman, Mario Malodonado
+ * @version V1.0 5/3/2018
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class NamePrompt extends JPanel implements ActionListener{
     //Containers and components
-    private Box centerBox = Box.createVerticalBox();
+    private Box centerBox = Box.createVerticalBox(); // Box to contain labels and text fields
     
-    private JPanel southButtonPanel;
-    private JButton continueButton = new JButton("CONTINUE");
-    private JButton exitButton = new JButton("EXIT");
+    private JPanel southButtonPanel; // Panel to contain exit and continue buttons
+    private JButton continueButton = new JButton("CONTINUE"); // Continue buttons
+    private JButton exitButton = new JButton("EXIT"); // Exit buttons
     
-    private Font font;
+    private Font font; // Object to hold font
     
-    private JTextField field1;
-    private JTextField field2;    
+    private JTextField field1; // Textfield for player 1 to enter name
+    private JTextField field2; // Textfield for player 2 to enter name
     
-    private JLabel noNameLabel;
+    private JLabel noNameLabel; // Label to instruct players to enter both names
 
+     /**
+     * Constructor responsible for displaying UI
+     */
     public NamePrompt(){
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
@@ -34,6 +46,9 @@ public class NamePrompt extends JPanel implements ActionListener{
         addComponents();
     }
 
+     /**
+     * Adds labels, text fields, and buttons
+     */
     private void addComponents(){
         JPanel helper = new JPanel();
         helper.setBackground(Color.BLACK);
@@ -48,6 +63,9 @@ public class NamePrompt extends JPanel implements ActionListener{
         add(southButtonPanel,BorderLayout.SOUTH);
     }
 
+     /**
+     * Add the label and text fields to the center of the screen
+     */
     private void addNamePrompts(){
         centerBox.add(Box.createVerticalStrut(415));
         addPrompt1();
@@ -56,6 +74,9 @@ public class NamePrompt extends JPanel implements ActionListener{
         addPrompt2();
     }
 
+     /**
+     * Add the prompt for player 1
+     */
     private void addPrompt1(){
         JPanel promptPanel = new JPanel();
         promptPanel.setLayout(new FlowLayout());
@@ -75,6 +96,9 @@ public class NamePrompt extends JPanel implements ActionListener{
         centerBox.add(promptPanel);
     }
 
+     /**
+     * Add the prompt for player2
+     */
     private void addPrompt2(){
         JPanel promptPanel = new JPanel();
         promptPanel.setLayout(new FlowLayout());
@@ -94,6 +118,9 @@ public class NamePrompt extends JPanel implements ActionListener{
         centerBox.add(promptPanel);
     }
 
+     /**
+     * Display the continue button
+     */
     private void addContinueButton(){
         continueButton.addActionListener(this);
         continueButton.setPreferredSize(new Dimension(200,75));
@@ -105,6 +132,9 @@ public class NamePrompt extends JPanel implements ActionListener{
         southButtonPanel.add(continueButton,BorderLayout.LINE_END);
     }
 
+     /**
+     * Display the exit button
+     */
     private void addExitButton(){
         exitButton.addActionListener(this);
         exitButton.setPreferredSize(new Dimension(200,75));
@@ -116,6 +146,11 @@ public class NamePrompt extends JPanel implements ActionListener{
         southButtonPanel.add(exitButton,BorderLayout.LINE_START);
     }
 
+     /**
+     * Handles each button's actions
+     * 
+     * @param e ActionEvent
+     */
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == continueButton){
             if(field1.getText().equals("") || field2.getText().equals("")){

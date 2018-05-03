@@ -1,3 +1,12 @@
+/**
+ * This class extends JPanel and displays the start menu screen
+ *
+ * CPSC 224-01, Spring 2018
+ * Final Project
+ * @author Vincent Lombardi, Luke Hartman, Mario Malodonado
+ * @version V1.0 5/3/2018
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -5,15 +14,18 @@ import java.awt.event.*;
 
 public class StartMenu extends JPanel implements ActionListener{
     // Containers and components
-    private Box centerButtonBox = Box.createVerticalBox();
+    private Box centerButtonBox = Box.createVerticalBox(); // Box to contain center buttons
     
-    private JPanel southButtonPanel;
-    private JButton startButton = new JButton("START GAME");
-    private JButton rulesButton = new JButton("VIEW RULES");
-    private JButton exitButton = new JButton("EXIT");
+    private JPanel southButtonPanel; // Panel to contain exit and continue buttons
+    private JButton startButton = new JButton("START GAME"); // Start button
+    private JButton rulesButton = new JButton("VIEW RULES"); // Rules screen button 
+    private JButton exitButton = new JButton("EXIT"); // Exit button
     
-    private Font font;
+    private Font font; // Object to hold font
 
+     /**
+     * Constructor responsible for displaying UI
+     */
     public StartMenu(){
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
@@ -30,6 +42,9 @@ public class StartMenu extends JPanel implements ActionListener{
         addComponents();
     }
 
+     /**
+     * Adds title and buttons
+     */
     private void addComponents(){
         addTitle();
         font = font.deriveFont(30f);
@@ -49,6 +64,9 @@ public class StartMenu extends JPanel implements ActionListener{
         add(southButtonPanel,BorderLayout.SOUTH);
     }
 
+     /**
+     * Adds the title to the top of the screen
+     */
     private void addTitle(){
         JPanel titlePanel = new JPanel();
         titlePanel.setLayout(new BorderLayout());
@@ -64,6 +82,9 @@ public class StartMenu extends JPanel implements ActionListener{
         add(titlePanel,BorderLayout.NORTH);
     }
 
+     /**
+     * Adds the start button to the Box container
+     */
     private void addStartButton(){
         startButton.addActionListener(this);
         startButton.setPreferredSize(new Dimension(250,75));
@@ -77,6 +98,9 @@ public class StartMenu extends JPanel implements ActionListener{
         centerButtonBox.add(startButton);
     }
 
+     /**
+     * Adds the rules screen button to the Box container
+     */
     private void addRulesButton(){
         rulesButton.addActionListener(this);
         rulesButton.setPreferredSize(new Dimension(250,75));
@@ -89,6 +113,9 @@ public class StartMenu extends JPanel implements ActionListener{
         centerButtonBox.add(rulesButton);
     }
 
+     /**
+     * Adds the exit button to the bottom of the screen
+     */
     private void addExitButton(){
         exitButton.addActionListener(this);
         exitButton.setPreferredSize(new Dimension(200,75));
@@ -100,6 +127,11 @@ public class StartMenu extends JPanel implements ActionListener{
         southButtonPanel.add(exitButton,BorderLayout.LINE_START);
     }
 
+     /**
+     * Handles each button's actions
+     * 
+     * @param e ActionEvent
+     */
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == startButton){
             //Set current panel to not be visible

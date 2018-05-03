@@ -4,11 +4,9 @@
  * CPSC 224-01, Spring 2018
  * Final Project
  * @author Vincent Lombardi, Luke Hartman, Mario Malodonado
- * @version V1.0 5/3/20
+ * @version V1.0 5/3/2018
  */
 
-
-import javax.swing.*;
 import java.awt.*;
 import java.io.*;
 

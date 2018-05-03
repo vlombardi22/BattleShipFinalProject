@@ -1,16 +1,29 @@
+/**
+ * This class displays the congrats screen after a player wins the game
+ *
+ * CPSC 224-01, Spring 2018
+ * Final Project
+ * @author Vincent Lombardi
+ * @version V1.0 5/3/2018
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
 
 public class CongratsScreen extends JPanel implements ActionListener{
     //Containers and components
-    private JPanel buttonPanel;
-    private JButton menuButton = new JButton("MENU");
-    private JButton exitButton = new JButton("EXIT");
-    private Font font;
-    private String winnerName;
+    private JPanel buttonPanel; // Panel to hold menu and exit buttons
+    private JButton menuButton = new JButton("MENU"); // Menu button
+    private JButton exitButton = new JButton("EXIT"); // Exit button
     
+    private Font font; // Object to hold font
+    
+    private String winnerName; // Winner name
+    
+    /**
+     * Displays the congrats screen
+     */    
     public CongratsScreen(String name){ 
         winnerName = name;
         setLayout(new BorderLayout());
@@ -28,6 +41,9 @@ public class CongratsScreen extends JPanel implements ActionListener{
         addComponents();
     }
     
+    /**
+     * Adds congratulatory message and buttons
+     */
     private void addComponents(){     
         addText();  
         font = font.deriveFont(30f);
@@ -36,6 +52,9 @@ public class CongratsScreen extends JPanel implements ActionListener{
         add(buttonPanel,BorderLayout.SOUTH); 
     }
     
+    /**
+     * Displays congratulatory message
+     */
     private void addText(){
         //Remove following line when the winner's actual name can be passed into this class
         font = font.deriveFont(125f);
@@ -49,6 +68,9 @@ public class CongratsScreen extends JPanel implements ActionListener{
         add(congrats,BorderLayout.CENTER);
     }
     
+    /**
+     * Displays the menu button
+     */
     private void addMenuButton(){
         menuButton.addActionListener(this);
         menuButton.setPreferredSize(new Dimension(200,75));
@@ -60,6 +82,9 @@ public class CongratsScreen extends JPanel implements ActionListener{
         buttonPanel.add(menuButton,BorderLayout.LINE_END);
     }
     
+    /**
+     * Displays the exit button
+     */
     private void addExitButton(){
         exitButton.addActionListener(this);
         exitButton.setPreferredSize(new Dimension(200,75));
@@ -73,7 +98,8 @@ public class CongratsScreen extends JPanel implements ActionListener{
     }
  
     /**
-     *
+     * Handles each button's actions
+     * 
      * @param e
      */
     @Override

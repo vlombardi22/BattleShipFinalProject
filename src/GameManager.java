@@ -17,10 +17,10 @@ public class GameManager implements ActionListener {
     
     public static Sound redAlert;
 
-    private static JFrame game;
-    private JPanel placingPanel;
-    private static JPanel gameBoardPanel;
-    private static JPanel switchPanel;
+    private static JFrame game; // Main game JFrame
+    private JPanel placingPanel; // Panel where players place their fleets
+    private static JPanel gameBoardPanel; // Panel where players attack each other
+    private static JPanel switchPanel; // Panel where players are told to switch
     
     private Player player1; // player object for player 1
     private Player player2; // player object for player 2
@@ -33,17 +33,19 @@ public class GameManager implements ActionListener {
     private int xCoordinate1; // temporary x coordinate
     private int yCoordinate1; // temporary y coordinate
     
-    private Font font;
+    private Font font; // Object to hold font
     
-    private JLabel label1;
+    // Labels for ship placement guidance
+    private JLabel label1; 
     private JLabel label2;
     private JLabel label3;
     private final JButton continueButton = new JButton("CONTINUE"); // continue button
     
-    private Boolean isPlayer1Turn = true;
+    private Boolean isPlayer1Turn = true; // Boolean that is true when it is player 1's turn
 
     /**
      * constructor for gameMangager which sets up a new JFrame
+     * 
      * @param P1 String - player name
      * @param P2 String - player name
      */
@@ -80,6 +82,9 @@ public class GameManager implements ActionListener {
     
      /**
      * Initializes player objects
+     * 
+     * @param P1 String
+     * @param P2 String 
      */
     private void playerSetup(String P1, String P2){
         player1 = new Player();

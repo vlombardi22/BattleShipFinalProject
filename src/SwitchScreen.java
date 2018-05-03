@@ -4,11 +4,15 @@ import java.awt.event.*;
 
 public class SwitchScreen extends JPanel implements ActionListener{
     //Containers and components
-    private JPanel buttonPanel;
-    private JButton continueButton = new JButton("CONTINUE");
-    private JButton exitButton = new JButton("EXIT");
-    private Font font;
+    private JPanel buttonPanel; // Panel to hold exit and continue buttons
+    private JButton continueButton = new JButton("CONTINUE"); // Continue button
+    private JButton exitButton = new JButton("EXIT"); // Exit button
     
+    private Font font; // Object to hold font
+    
+    /**
+     * Displays the switch screen
+     */
     public SwitchScreen(){ 
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
@@ -25,6 +29,9 @@ public class SwitchScreen extends JPanel implements ActionListener{
         addComponents();
     }
     
+    /**
+     * Adds text, exit button, and continue button
+     */
     private void addComponents(){     
         addText();  
         font = font.deriveFont(30f);
@@ -33,6 +40,9 @@ public class SwitchScreen extends JPanel implements ActionListener{
         add(buttonPanel,BorderLayout.SOUTH); 
     }
     
+    /**
+     * Displays text in the center of the screen
+     */
     private void addText(){
         //Remove following line when the winner's actual name can be passed into this class
         font = font.deriveFont(125f);
@@ -46,6 +56,9 @@ public class SwitchScreen extends JPanel implements ActionListener{
         add(congrats,BorderLayout.CENTER);
     }
     
+    /**
+     * Displays the continue button
+     */
     private void addContinueButton(){
         continueButton.addActionListener(this);
         continueButton.setPreferredSize(new Dimension(200,75));
@@ -57,6 +70,9 @@ public class SwitchScreen extends JPanel implements ActionListener{
         buttonPanel.add(continueButton,BorderLayout.LINE_END);
     }
     
+    /**
+     * Displays the exit button
+     */
     private void addExitButton(){
         exitButton.addActionListener(this);
         exitButton.setPreferredSize(new Dimension(200,75));
@@ -70,7 +86,8 @@ public class SwitchScreen extends JPanel implements ActionListener{
     }
    
     /**
-     *
+     * Handles each button's actions
+     * 
      * @param e
      */
     @Override
@@ -78,6 +95,7 @@ public class SwitchScreen extends JPanel implements ActionListener{
         if(e.getSource() == continueButton){
             //Set current panel to not visible
             //Set game screen to visible
+            
             setVisible(false);
             GameManager.getFrame().add(GameManager.getGameBoard());
             GameManager.getGameBoard().setVisible(true);

@@ -1,3 +1,12 @@
+/**
+ * This class displays the rules screen
+ *
+ * CPSC 224-01, Spring 2018
+ * Final Project
+ * @author Vincent Lombardi, Luke Hartman, Mario Malodonado
+ * @version V1.0 5/3/2018
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -5,13 +14,15 @@ import java.io.*;
 
 public class Rules extends JPanel implements ActionListener{
     //Containers and components
-    private JPanel buttonPanel;
+    private JPanel buttonPanel; // Panel to contain exit and return buttons    
+    private JButton returnButton = new JButton("RETURN"); // Return button
+    private JButton exitButton = new JButton("EXIT"); // Exit button
     
-    private JButton returnButton = new JButton("RETURN");
-    private JButton exitButton = new JButton("EXIT");
-    
-    private Font font;
+    private Font font; // Object to hold font
 
+    /**
+     * Constructor responsible for displaying UI
+     */
     public Rules(){
         setLayout(new BorderLayout());
         setBackground(Color.BLACK);
@@ -28,6 +39,9 @@ public class Rules extends JPanel implements ActionListener{
         addComponents();
     }
 
+    /**
+     * Adds title, text, and buttons
+     */
     private void addComponents(){
         addTitle();
         addRulesText();
@@ -37,6 +51,9 @@ public class Rules extends JPanel implements ActionListener{
         add(buttonPanel,BorderLayout.SOUTH);
     }
 
+    /**
+     * Adds title to the top of the screen
+     */
     private void addTitle(){
         JPanel titlePanel = new JPanel();
         titlePanel.setLayout(new BorderLayout());
@@ -52,13 +69,16 @@ public class Rules extends JPanel implements ActionListener{
         add(titlePanel,BorderLayout.NORTH);
     }
 
+    /**
+     * Adds the rules text to the center of the screen
+     */
     private void addRulesText(){
         Box list = Box.createVerticalBox();
         String strLine;
         BufferedReader in;
 
         try{
-            //File path may need changing
+            // Read from .txt files
             in = new BufferedReader(new FileReader("res/Rules.txt"));
             font = font.deriveFont(26f);
             JLabel[] rulesLabel = new JLabel[19];
@@ -83,6 +103,9 @@ public class Rules extends JPanel implements ActionListener{
         add(list,BorderLayout.LINE_START);
     }
 
+    /**
+     * Displays the return button
+     */
     private void addReturnButton(){
         returnButton.addActionListener(this);
         returnButton.setPreferredSize(new Dimension(200,75));
@@ -94,6 +117,9 @@ public class Rules extends JPanel implements ActionListener{
         buttonPanel.add(returnButton,BorderLayout.LINE_END);
     }
 
+    /**
+     * Displays the exit button
+     */
     private void addExitButton(){
         exitButton.addActionListener(this);
         exitButton.setPreferredSize(new Dimension(200,75));
@@ -107,11 +133,9 @@ public class Rules extends JPanel implements ActionListener{
     }
 
     /**
-     *
-     * @param e
-     * @throws FileNotFoundException
-     * @throws IOException
-     * @throws FontFormatException
+     * Handles each button's actions
+     * 
+     * @param e ActionEvent
      */
     public void actionPerformed(ActionEvent e){
         if(e.getSource() == returnButton){
