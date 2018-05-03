@@ -1,5 +1,11 @@
 /**
- * This class lets players name themselves and play a single round of battleship
+ * This class lets players place their ships. Players do this by clicking on the
+ * tiles representing the endpoints of their ships
+ *
+ * CPSC 224-01, Spring 2018
+ * Final Project
+ * @author Vincent Lombardi
+ * @version V1.0 5/3/20
  */
 
 import javax.swing.*;
@@ -16,27 +22,28 @@ public class GameManager implements ActionListener {
     private static JPanel gameBoardPanel;
     private static JPanel switchPanel;
     
-    private Player player1;
-    private Player player2;
+    private Player player1; // player object for player 1
+    private Player player2; // player object for player 2
     
-    private Board armada1;
-    private Board armada2;
+    private Board armada1;  // Board object for player 1
+    private Board armada2;  // Board object for player 2
     private Board armada; // Used to hold either armada1 or armada2
  
-    private JButton[][] positionGrid;
-    private int xCoordinate1;
-    private int yCoordinate1;
+    private JButton[][] positionGrid; // JButton grid for ship placement
+    private int xCoordinate1; // temporary x coordinate
+    private int yCoordinate1; // temporary y coordinate
     
     private Font font;
     
     private JLabel label1;
     private JLabel label2;
     private JLabel label3;
-    private final JButton continueButton = new JButton("CONTINUE");
+    private final JButton continueButton = new JButton("CONTINUE"); // continue button
     
     private Boolean isPlayer1Turn = true;
 
-     /**
+    /**
+     * constructor for gameMangager which sets up a new JFrame
      * @param P1 String - player name
      * @param P2 String - player name
      */
@@ -109,7 +116,7 @@ public class GameManager implements ActionListener {
                 constraints.gridy = y;
                 constraints.weightx = 1;
                 constraints.weighty = 1;
-                positionGrid[y][x].addActionListener(this::playerDeploymentListener);
+                positionGrid[y][x].addActionListener(this::playerDeploymentListener); // sets action listener
                 Panel.add(positionGrid[y][x], constraints);
             }
         }
@@ -183,63 +190,64 @@ public class GameManager implements ActionListener {
         int yTemp = -1;
         for (int x = 0; x < 10; x++) {
             for (int y = 0; y < 10; y++) {
-                if (e.getSource() == positionGrid[y][x]) {
+                if (e.getSource() == positionGrid[y][x]) { // gets x and y coordinates of current button
                     xTemp = x;
                     yTemp = y;
                 }
             }
         }
         
-        if(isPlayer1Turn)
+        if (isPlayer1Turn) { // sets board to current player
             armada = armada1;
-        else
+        } else {
             armada = armada2;
-
+        }
+        // if this is the first set of xy coordinates they are stored in xCoordinate1 and yCoordinate1
         if (xCoordinate1 < 0 && yCoordinate1 < 0) {
             xCoordinate1 = xTemp;
             yCoordinate1 = yTemp;
         } else {
-            if (!armada.isCarrierExists()) {
-                if(armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'A')){
+            if (!armada.isCarrierExists()) { // if not already done places the carrier
+                if (armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'A')) {
                     label1.setText("PLACE YOUR BATTLESHIP");
                     label2.setText("BATTLESHIP: 4 BLOCKS");
                 }  
-                xCoordinate1 = -1;
+                xCoordinate1 = -1; // reset first xy coordinate pair
                 yCoordinate1 = -1;
-            } else if (!armada.isBattleshipExists()) {                
+            } else if (!armada.isBattleshipExists()) { // if not already done places the battleship
                 if(armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'B')){
                     label1.setText("PLACE YOUR CRUISER");
                     label2.setText("CRUISER: 3 BLOCKS");
                 }
-                xCoordinate1 = -1;
+                xCoordinate1 = -1; // reset first xy coordinate pair
                 yCoordinate1 = -1;
-            } else if (!armada.isCruiserExists()) {
+            } else if (!armada.isCruiserExists()) { // if not already done places the cruiser
                 if(armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'C')){
                     label1.setText("PLACE YOUR SUBMARINE");
                     label2.setText("SUBMARINE: 3 BLOCKS");
                 }
-                xCoordinate1 = -1;
+                xCoordinate1 = -1; // reset first xy coordinate pair
                 yCoordinate1 = -1;
-            } else if (!armada.isSubExists()) {
+            } else if (!armada.isSubExists()) { // if not already done places the sub
                 if(armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'S')){
                     label1.setText("PLACE YOUR PATROL BOAT");
                     label2.setText("PATROL BOAT: 2 BLOCKS");
                 }         
-                xCoordinate1 = -1;
+                xCoordinate1 = -1; // reset first xy coordinate pair
                 yCoordinate1 = -1;
-            } else if (!armada.isPatrolBoatExists()) {
+            } else if (!armada.isPatrolBoatExists()) { // if not already done places the patrolBoat
                 if(armada.placeWarship(xCoordinate1, yCoordinate1 , xTemp, yTemp, 'P')){
                     label1.setText("YOU ARE DONE ");
                     label2.setText("CLICK CONTINUE");
                     label3.setText("");
                 }
-                xCoordinate1 = -1;
+                xCoordinate1 = -1; // reset first xy coordinate pair
                 yCoordinate1 = -1;
             }
             
         }
 
-        for (int x = 0; x < 10; x++) {
+        for (int x = 0; x < 10; x++) { // changes tiles to gray if they are part of a ship
             for (int y = 0; y < 10; y++) {
                 if (armada.checkShipSpace(x, y)) {
                     positionGrid[x][y].setBackground(Color.gray);
@@ -249,7 +257,7 @@ public class GameManager implements ActionListener {
     }
 
     /**
-     * clears player2's board (I just thought that this would be useful)
+     * clears position board so that all spaces are blue
      */
     private void clearPositionGrid(){
         for (int x = 0; x < 10; x++) {
@@ -259,29 +267,45 @@ public class GameManager implements ActionListener {
         }
     }
 
+    /**
+     * game getter method
+     * @return JFRame
+     */
     public static JFrame getFrame(){
         return game;
     }
-    
+
+    /**
+     * switchscreens getter
+     * @return switchPanel
+     */
     public static JPanel getSwitchScreen(){
         return switchPanel;
     }
-    
+
+    /**
+     * gameBoardPanels getter
+     * @return gameBoardPanel
+     */
     public static JPanel getGameBoard(){
         return gameBoardPanel;
     }
-    
+
+    /**
+     * Action Listener for the board and continue
+     * @param e the button that was pressed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource() == continueButton){
-            if(isPlayer1Turn && armada1.isPatrolBoatExists()){
+        if (e.getSource() == continueButton) { // if the button was continue switch players
+            if (isPlayer1Turn && armada1.isPatrolBoatExists()) {
                 clearPositionGrid();
                 isPlayer1Turn = false;
                 
                 label1.setText("PLACE YOUR CARRIER");
                 label2.setText("CARRIER: 5 BLOCKS");
                 label3.setText("SELECT ENDPOINTS OF YOUR SHIP");
-            }else if(!isPlayer1Turn && armada2.isPatrolBoatExists()){
+            } else if(!isPlayer1Turn && armada2.isPatrolBoatExists()) { // switch to gameBoard
                 gameBoardPanel = new GameBoard(player1,player2);
                 
                 placingPanel.setVisible(false);

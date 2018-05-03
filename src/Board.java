@@ -1,19 +1,24 @@
 /**
- *  This Class stores a 10 by 10 array of tile objects and a and a 5 array of warships. It allows players to
+ *  This class stores a 10 by 10 array of tile objects and a and a 5 array of warships. It allows players to
  *  positions their ships, shoot at their opponents, and print out the grid.
  *
  *  Array ship positions battleship[0] aircraftCarrier[1] submarine[2] cruiser[3] patrolBoat[4]
+ *
+ *  CPSC 224-01, Spring 2018
+ * Final Project
+ * @author Vincent Lombardi
+ * @version V1.0 5/3/2018
  */
 
 public class Board {
     private Tile[][] board;  // array of tiles representing the players board
     private WarShip[] fleet; // array of warship objects representing players fleet
     private String name;    // string for the players name
-    private boolean carrierExist;
-    private boolean battleshipExists;
-    private boolean subExists;
-    private boolean cruiserExists;
-    private boolean patrolBoatExists;
+    private boolean carrierExist; // boolean for if carrier exists
+    private boolean battleshipExists; // boolean for if the battleship exists
+    private boolean subExists;       // boolean for if the submarine exists
+    private boolean cruiserExists;   // boolean for if the cruiser exists
+    private boolean patrolBoatExists; // boolean for if the patrol boat exists
 
     /**
      * constructor initializes 10 by 10 grid and a 5 ship fleet. all tile's on the grid are set to no be part
@@ -25,8 +30,8 @@ public class Board {
         
         name = "Player";
         
-        for(int y = 0; y < 10; y++){
-            for(int x = 0; x < 10; x++ ){
+        for (int y = 0; y < 10; y++) {
+            for (int x = 0; x < 10; x++ ) {
                 board[x][y] = new Tile();
             }
         }
@@ -34,10 +39,11 @@ public class Board {
 
     /**
      * returns whether or not there is an aircraft carrier on the board
-     * @return true if you placed the carrier
+     * and if said Carrier has been destroyed
+     * @return true if you placed the carrier and if it is still alive
      */
     public boolean isCarrierExists() {
-        if(carrierExist){
+        if (carrierExist) { // checks if the carrier has been sunk
             return !fleet[1].isSunk();
         }
         return false;
@@ -45,10 +51,11 @@ public class Board {
 
     /**
      * returns whether or not there is an battleship on the board
-     * @return true if you placed the battleship
+     * and if said battleship has been destroyed
+     * @return true if you placed the battleship and if it is still alive
      */
     public boolean isBattleshipExists() {
-        if(battleshipExists){
+        if (battleshipExists) { // checks if the battleship has been sunk
             return !fleet[0].isSunk();
         }
         return false;
@@ -56,32 +63,33 @@ public class Board {
 
     /**
      * returns whether or not there is a submarine on the board
-     * @return true if you placed the submarine
+     * and if said submarne is destroyed
+     * @return true if you placed the submarine and if it is still alive
      */
     public boolean isSubExists() {
-        if(subExists){
+        if (subExists) { // checks if the sub has been sunk
             return !fleet[2].isSunk();
         }
         return false;
     }
 
     /**
-     * returns whether or not there is a cruiser on the board
-     * @return true if you placed the cruiser
+     * returns whether or not there is a cruiser on the board and if it has been destroyed
+     * @return true if you placed the cruiser and if it is still alive
      */
     public boolean isCruiserExists() {
-        if(cruiserExists){
+        if (cruiserExists) {
             return !fleet[3].isSunk();
         }
         return false;
     }
 
     /**
-     * returns whether or not there is a patrol boat on the board
-     * @return true if you placed the patrol boat
+     * returns whether or not there is a patrol boat on the board and if it has been destroyed
+     * @return true if you placed the patrol boat and if it is still alive
      */
     public boolean isPatrolBoatExists() {
-        if(patrolBoatExists){
+        if (patrolBoatExists) { // checks if the patrol boat has been sunk
             return !fleet[4].isSunk();
         }
         return false;
@@ -90,16 +98,16 @@ public class Board {
     /**
      * displays your board to the enemy. Only damaged portions of ships are shown. also displays missed shots.
      */
-    public void displayEnemyBoard(){
+    public void displayEnemyBoard() {
         System.out.println("  1|2|3|4|5|6|7|8|9|10");
-        for(int Y = 0; Y < 10; Y++){
+        for (int Y = 0; Y < 10; Y++) {
             System.out.print((Y+1)+"|");
-            for(int X = 0; X < 10; X++) {
+            for (int X = 0; X < 10; X++) {
                 if (board[Y][X].getHit() && board[Y][X].getShip()) { // displays hit ships
                     System.out.print("X|");
                 } else if (board[Y][X].getHit() && !board[Y][X].getShip()) { // displays missed shots
                     System.out.print("M|");
-                }else{
+                } else {
                     System.out.print("0|"); // displays unknown spaces
                 }
             }
@@ -114,14 +122,14 @@ public class Board {
     public void displayPlayerBoard(){
         System.out.println(name + "'s fleet");
         System.out.println("  1|2|3|4|5|6|7|8|9|10");
-        for(int Y = 0; Y < 10; Y++){
+        for(int Y = 0; Y < 10; Y++) {
             System.out.print((Y+1)+"|");
             for(int X = 0; X < 10; X++) {
                 if (board[Y][X].getHit() && board[Y][X].getShip()) { // displays damaged ship components
                     System.out.print("X|");
                 } else if (!board[Y][X].getHit() && board[Y][X].getShip()) { // displays undamaged ship components
                     System.out.print(board[Y][X].getShipType()+"|");
-                }else{
+                } else {
                     System.out.print("0|"); // displays unkonwn spaces
                 }
             }
@@ -138,7 +146,7 @@ public class Board {
      * @return true if target has not been hit yet
      */
     public boolean shoot(int x, int y){
-        if(!board[y][x].getHit()) {
+        if (!board[y][x].getHit()) {
             board[y][x].setHit(true);
             return true;
         }
@@ -155,7 +163,7 @@ public class Board {
      * @return true if there is a damaged ship on the specified tile
      */
     public boolean checkSpace(int x, int y){
-        if((board[y][x].getShip()) && (board[y][x].getHit())){
+        if ((board[y][x].getShip()) && (board[y][x].getHit())) {
             return true;
         }
         return false;
@@ -170,8 +178,8 @@ public class Board {
      * @return true if all ships are sunk
      */
     public boolean gameOver(){
-        for(int index = 0; index < fleet.length; index++){
-            if(!fleet[index].isSunk()){
+        for (int index = 0; index < fleet.length; index++) {
+            if (!fleet[index].isSunk()) {
                 return false;
             }
         }
@@ -210,7 +218,9 @@ public class Board {
     }
 
     /**
-     *
+     * this method takes in a char for shipType and and 2 pairs of xy coordinates.
+     * It then checks if the xy have and appropriate distance between them based
+     * on their ship type. Finally this method places the ship on the board.
      * @param x1Temp the ships first x coordinate
      * @param y1Temp the ships first y coordinate
      * @param x2Temp the ships second x coordinate
@@ -219,54 +229,52 @@ public class Board {
      * @return if the ship was placed
      */
     public boolean placeWarship(int x1Temp, int y1Temp, int x2Temp, int y2Temp, char shipType){
-        System.out.println(x1Temp + "," + y1Temp);
-        System.out.println(x2Temp + "," + y2Temp);
 
-        int size = findShipSize(shipType);
-        int shipIndex = findShipIndex(shipType);
+        int size = findShipSize(shipType);           // ship size
+        int shipIndex = findShipIndex(shipType);     // index of ship in warship array
         Tile[] tempCoordinates = new Tile[size];
-        int x1 = x1Temp;
-        int y1 = y1Temp;
-        int x2 = x2Temp;
-        int y2 = y2Temp;
+        int x1 = x1Temp; // first x coordinate
+        int y1 = y1Temp; // first y coordinate
+        int x2 = x2Temp; // second x coordinate
+        int y2 = y2Temp; // second y coordinate
         int temp;
-        if(x1 > x2){ // checks to make sure x-coordinates are in the correct order
+        if (x1 > x2) { // checks to make sure x-coordinates are in the correct order
             temp = x1;
             x1 = x2;
             x2 = temp;
         }
-        if(y1 > y2){ // checks to make sure y-coordinates are in the correct order
+        if (y1 > y2) { // checks to make sure y-coordinates are in the correct order
             temp = y1;
             y1 = y2;
             y2 = temp;
         }
-        if(x1 == x2){
-            if((y2 - y1) != (size - 1)){
-                System.out.println("incorrect size");
-                return false;
-            }
-            for(int index = 0; index < size; index++){
-                if(!board[y1 + index][x1].getShip()) {
-                    tempCoordinates[index] = board[y1 + (index)][x1];
-                }else{
-                    System.out.println("error incorrect coordinates");
-                    return false;
-                }
-            }
-        }else if(y1 == y2){
-            if((x2 - x1) != (size - 1)){
+        if (x1 == x2) {
+            if ((y2 - y1) != (size - 1)) { // checks ship size
                 System.out.println("incorrect size");
                 return false;
             }
             for(int index = 0; index < size; index++) {
-                if(!board[y1][x1 + index].getShip()) {
+                if (!board[y1 + index][x1].getShip()) { // places ship if their is no ship at that coordinate
+                    tempCoordinates[index] = board[y1 + (index)][x1];
+                } else {
+                    System.out.println("error incorrect coordinates");
+                    return false;
+                }
+            }
+        } else if (y1 == y2) {
+            if ((x2 - x1) != (size - 1)) { // checks ship size
+                System.out.println("incorrect size");
+                return false;
+            }
+            for (int index = 0; index < size; index++) {
+                if(!board[y1][x1 + index].getShip()) { // places ship if their is no ship at that coordinate
                     tempCoordinates[index] = board[y1][x1 + (index)];
                 } else {
                     System.out.println("error incorrect coordinates");
                     return false;
                 }
             }
-        }else{
+        } else {
             System.out.println("error incorrect coordinates");
             return false;
         }
@@ -301,11 +309,11 @@ public class Board {
      * @return returns the ships size
      */
     private int findShipSize(char shipType){
-        if(shipType == 'A'){
+        if (shipType == 'A') {
             return 5;
-        } else if(shipType == 'B'){
+        } else if(shipType == 'B') {
             return 4;
-        } else if(shipType == 'P'){
+        } else if(shipType == 'P') {
             return 2;
         } else { // this covers the submarine and the cruiser
             return 3;
@@ -317,15 +325,15 @@ public class Board {
      * @param shipType ship type
      */
     private void setShipExists(char shipType){
-        if(shipType == 'B'){ // battleship
+        if (shipType == 'B'){ // battleship
             battleshipExists = true;
-        } else if(shipType == 'A'){ // aircraftCarrier
+        } else if(shipType == 'A') { // aircraftCarrier
             carrierExist = true;
-        } else if(shipType == 'S'){ // submarine
+        } else if(shipType == 'S') { // submarine
             subExists = true;
-        } else if(shipType == 'C'){ // cruiser
+        } else if(shipType == 'C') { // cruiser
             cruiserExists = true;
-        } else if(shipType == 'P'){ // patrolBoat
+        } else if(shipType == 'P') { // patrolBoat
             patrolBoatExists = true;
         }
     }

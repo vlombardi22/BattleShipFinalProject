@@ -1,6 +1,11 @@
 /**
- * this class stores whether or not individual ships have been already shot at, are part of a ship, and what
+ * this class stores whether or not individual tiles have been already shot at, are part of a ship, and what
  * kind of a ship they are a part of.
+ *
+ * CPSC 224-01, Spring 2018
+ * Final Project
+ * @author Vincent Lombardi
+ * @version V1.0 5/3/2018
  */
 public class Tile {
     private boolean isShip; // boolean for if this tile is part of a ship
@@ -18,7 +23,7 @@ public class Tile {
     }
 
     /**
-     *
+     * Setter method for shipType.
      * @param shipType char representing ship type
      */
     public void setShipType(char shipType){
